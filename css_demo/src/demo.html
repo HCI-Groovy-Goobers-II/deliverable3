@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <meta name="title" content="ProjectConnect - Home">
+        <meta name="description" content="Students, rate your college peers, compare ratings, strengths, and weaknesses to help you build your perfect project team. Professors, track your students project teams and peer reviews all in one place.">
+        <meta name="keywords" content="student, professor, rate, team, project, review, peer, group">
+        <meta name="author" content="ProjectConnect">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="robots" content="index follow">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;700&family=Bellefair&family=Barlow:wght@400;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@500&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+        <link rel="stylesheet" href="css/index.css">
+
+        <script
+        src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+        crossorigin="anonymous"></script>
+        <script
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+        <title>PC - Demo</title>
+        <style>
+            #hometitle {
+                text-shadow: -1px 1px 0px #000,
+				  1px 1px 0px #000,
+				  1px -1px 0px #000,
+				  -1px -1px 0px #000;
+            }
+            #navbar-brand { white-space: nowrap; }
+            .bttn, .navbar-img { display: inline-block; }
+        </style>
+    </head>
+
+    <body class="bg-white">
+        <div class="page-container">
+            <div class="content-wrap" style="background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), url('img/home/minimal-mtns-dark.jpg');">
+                <div class="lightly-pad-container bg-brand-blue text-white text-break">
+                    <h1 class="ff-sans-bolder text-center textshadow">Pretty Blue Banner</h1>
+                    <p style="margin-left: 10rem;">
+                        This banner is made with the following code:
+                    </p>
+                    <pre>
+                        <code>
+                            &lt;div class="lightly-pad-container bg-brand-blue text-white text-break"&gt;
+                                &lt;h1 class="ff-sans-bolder text-center textshadow"&gt;Pretty Blue Banner&lt;/h1&gt;
+                                &lt;p style="margin-left: 10rem;"&gt;
+                                    This banner is made with the following code:
+                                &lt;/p&gt;
+                                &lt;.../&gt;
+                            &lt;/div&gt;
+                        </code>
+                    </pre>
+                </div>
+
+                <span class="text-white fs-400">
+                    &lt;div class="flow container"&gt;
+                </span>
+                <div class="flow container">
+                    <span class="text-danger fs-400">
+                        &lt;div class="row card-row"&gt;
+                    </span>
+                    <div class="row card-row">
+                        <div class="col-sm card">
+                            <span class="text-brand-blue fs-400"
+                                style="margin-top: -45px; margin-left: -20px;">
+                                &lt;div class="col-sm card"&gt;
+                            </span>
+                            <span class="text-danger">
+                                &lt;h3 class="fs-sans-bolder"&gt;
+                                <h3 class="ff-sans-bolder text-dark">Darkened Background Image</h3>
+                                &lt;/h3&gt;
+                            </span>
+                            <p class="fs-sans-bolder">
+                                This lovely background image was set by applying a linear gradient over an image
+                                in the content-wrap div:<br>
+                                <pre>
+                                <code>
+                                &lt;div class="page-container"&gt;
+                                    &lt;div class="content-wrap"
+                                <span style="color: red">Here --> </span><span class="text-brand-blue">style="background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), url('img/home/minimal-mtns-dark.jpg');"</span>&gt;
+                                        &lt;div class="lightly-pad-container bg-brand-blue text-white text-break"&gt;
+                                            ...
+                                        &lt;/div&gt;
+                                        &lt;div class="flow container"&gt;
+                                            &lt;div class="row card-row"&gt;
+                                                &lt;div class="col-sm card"&gt;
+                                                    &lt;span class="text-white fs-400"
+                                                        style="margin-top: -40px; margin-left: -20px;"&gt;
+                                                        &lt;div class="col-sm"&gt;
+                                                    &lt;/span&gt;
+                                                    &lt;h3&gt;&lt;h3&gt;Darkened Background Image&lt;/h3&gt;&lt;/h3&gt;
+                                                    &lt;p&gt;
+                                                        This lovely background image...
+                                                        &lt;pre&gt;
+                                                        <span style="color: red;"> You're looking right here</span>...
+                                                        &lt;/pre&gt;
+                                                    &lt;/p&gt;
+                                                &lt;/div&gt;
+                                            &lt;/div&gt;
+                                        &lt;/div&gt;
+                                    &lt;/div&gt;
+
+                                    &lt;footer class="shadow text-right"&gt;&lt;/footer&gt;
+                                &lt;/div&gt;
+                                </code>
+                                </pre>
+                            </p>
+                        </div>
+                        <div class="col-xs">
+                            <span class="text-white fs-500">
+                                (col-xs div<br>
+                                in center<br>
+                                for space)
+                            </span>
+                            <p>&emsp;&emsp;</p>
+                        </div>
+                        <div class="col-sm card bg-dark text-white">
+                            <span class="fs-400 text-brand-blue"
+                                style="margin-top: -45px; margin-left: -20px;">
+                                &lt;div class="col-sm card bg-dark text-white"&gt;
+                            </span>
+                            <span class="text-danger">
+                                &lt;h3 class="fs-sans-bolder text-white"&gt;
+                                <h3 class="fs-sans-bolder text-white">Essential Page Layout</h3>
+                                &lt;/h3&gt;
+                            </span>
+
+                            <span class="text-brand-blue">
+                                &lt;h4&gt;
+                                <h4 class="text-white">Every page's layout should look like this:</h4>
+                                &lt;/h4&gt;
+                            </span>
+                            <pre class="text-white" style="margin-left: -12rem">
+                            <code>
+                            &lt;!DOCTYPE html&gt;
+                            &lt;html&gt;
+                                &lt;head&gt;
+                                &lt;stuff&gt;
+                                &lt;more stuff...&gt;
+                                &lt;/head&gt;
+
+                                &lt;body&gt;
+                                    &lt;nav&gt;
+                                        Nav stuff
+                                    &lt;/nav&gt;
+                                    &lt;div id="page-container"&gt;
+                                        &lt;div class="content-wrap"&gt;
+                                            &lt;!-- all other page content --&gt;
+                                        &lt;/div&gt;
+
+                                        &lt;footer&gt;&lt;/footer&gt;
+                                    &lt;/div&gt;
+                                &lt;/body&gt;
+
+                            &lt;/html&gt;
+                            </code>
+                            </pre>
+                            <span class="text-accent">
+                                &lt;h4&gt;
+                                <h4 class="text-white">Why should it look like that?</h4>
+                                &lt;/h4&gt;
+                            </span>
+                            <p>
+                                <span class="text-brand-blue">page-container</span> should
+                                wrap everything in the page body that comes after the nav,
+                                <span class="text-brand-blue">including the footer.</span>
+                                <br><br>
+                                Nested inside <span class="text-brand-blue">page-container</span>
+                                is <span class="text-brand-blue">content-wrap</span>. Basically,
+                                &nbsp;<span class="text-danger">all the content that you add to
+                                a webpage will be nested in the content-wrap tags</span>.
+                            </p>
+                            <p>
+                                This structure was designed so that in all cases, the page creates
+                                the optimal height such that the footer stays at the bottom.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flow container text-accent" style="background-color: rgba(0, 0, 0, 0.5);">
+                    <div class="text-center ff-sans-bolder fs-600">Buttons</div>
+                    <br>
+                    <div class="border-brand-blue">
+                        <div class="row">
+                            <div class="col">
+                                <div class="row" style="margin: 0 10em 0 10em;">
+                                    <div class="col-sm">
+                                        <h3 class="text-danger">Solid buttons</h3>
+                                    </div>
+                                    <div class="col-xs">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div class="row" style="margin: 0 1em 1em 1em;">
+                                    <div class="col-sm">
+                                        <p class="text-light fs-sans-bolder">bttn-brand-blue</p>
+                                        <button class="bttn-brand-blue">Submit</button>
+                                    </div>
+                                    <div class="col-sm">
+                                        <p class="text-light fs-sans-bolder">bttn-danger</p>
+                                        <button class="bttn-danger">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row" style="margin: 0 10em 0 10em;">
+                                    <div class="col-sm">
+                                        <h3 class="text-danger">Outlined buttons</h3>
+                                    </div>
+                                    <div class="col-xs">
+                                        &nbsp;
+                                    </div>
+                                </div>
+                                <div class="row" style="margin: 0 1em 1em 1em;">
+                                    <div class="col-sm">
+                                        <p class="text-light fs-sans-bolder">bttn-outline-brand-blue</p>
+                                        <button class="bttn-outline-brand-blue">Submit</button>
+                                    </div>
+                                    <div class="col-sm">
+                                        <p class="text-light fs-sans-bolder">bttn-outline-danger</p>
+                                        <button class="bttn-outline-danger">Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+
+                    <div class="text-center ff-sans-bolder fs-600">Cards are created with rows and columns</div>
+                    <br>
+                    <div class="border-brand-blue" style="width: fit-content;">
+                        <div class="row">
+                            <div class="col-2"></div>
+                            <div class="col-8">
+                                <h3 class="text-danger">Rows and columns</h3>
+                                I use a flow container to contain rows. Rows and columns
+                                are Bootstrap classes which you can read more about <a href="https://getbootstrap.com/docs/4.0/layout/grid/" target="_blank">here</a>.
+                                <br><br>
+                                Basically if you want two cards to sit next to each other,
+                                you create two columns nested in one row:
+                            </div>
+                        </div>
+                        <div class="row border-brand-blue" style="margin: 0 10em 0 10em;">
+                            <div class="col-sm text-accent">
+                                <p class="fs-400">Code:</p>
+                                <pre class="text-brand-blue">
+                                <code>
+                                &lt;div class="row"&gt;
+                                    &lt;div class="col"&gt;Card 1&lt;/div&gt;
+                                    &lt;div class="col"&gt;Card 2&lt;/div&gt;
+                                &lt;/div&gt;
+                                </code>
+                                </pre>
+                            </div>
+                            <div class="col-sm text-accent">
+                                <p class="fs-400">Result:</p>
+                                <div>
+                                    <div class="ff-sans-bolder text-brand-blue">
+                                        <div class="row border-brand-blue">
+                                            <div class="col" style="border: 1px dashed red;">Card 1</div>
+                                            <div class="col" style="border: 1px dashed red;">Card 2</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <br><br>
+                        <h3>But wait...they aren't really cards yet!</h3>
+                    </div>
+                    <div class="border-brand-blue" style="margin-left: 10rem; width: fit-content;">
+                        <div class="row">
+                            <div class="col-2"></div>
+                            <div class="col-8">
+                                <h3 class="text-danger">Card-rows and cards</h3>
+                                <p>
+                                    You need to use my special classes <span class="text-danger">card-row</span>
+                                    and <span class="text-danger">card</span> in conjunction with the Bootstrap classes:
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row border-brand-blue" style="margin: 0 10em 0 10em;">
+                            <div class="col-sm text-accent">
+                                <p class="fs-400">Code:</p>
+                                <pre class="text-brand-blue">
+                                <code>
+                                &lt;div class="row card-row"&gt;
+                                    &lt;div class="col card"&gt;Card 1&lt;/div&gt;
+                                    &lt;div class="col card"&gt;Card 2&lt;/div&gt;
+                                &lt;/div&gt;
+                                </code>
+                                </pre>
+                            </div>
+                            <div class="col-sm text-accent">
+                                <p class="fs-400">Result:</p>
+                                <div>
+                                    <div class="ff-sans-bolder text-brand-blue">
+                                        <div class="row card-row">
+                                            <div class="col card">Card 1</div>
+                                            <div class="col card">Card 2</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <br><br>
+                        <h3>Space them out</h3>
+                    </div>
+                    <div class="border-brand-blue" style="width: fit-content;">
+                        <div class="row">
+                            <div class="col-2"></div>
+                            <div class="col-8">
+                                <h3 class="text-danger">Space Between the Cards</h3>
+                                The cards have no room for Jesus between them! I add
+                                a bit of space between them like this:
+                            </div>
+                        </div>
+                        <div class="row border-brand-blue" style="margin: 0 10em 0 10em;">
+                            <div class="col-sm text-accent">
+                                <p class="fs-400">Code:</p>
+                                <pre class="text-brand-blue">
+                                <code>
+                                &lt;div class="row card-row"&gt;
+                                    &lt;div class="col card"&gt;Card 1&lt;/div&gt;
+                                    &lt;div class="col-xs"&gt;&lt;p&gt;&amp;emsp;&amp;emsp;&lt;/p&gt;&lt;/div&gt;
+                                    &lt;div class="col card"&gt;Card 2&lt;/div&gt;
+                                &lt;/div&gt;
+                                </code>
+                                </pre>
+                            </div>
+                            <div class="col-sm text-accent">
+                                <p class="fs-400">Result:</p>
+                                <div>
+                                    <div class="ff-sans-bolder text-brand-blue">
+                                        <div class="row card-row">
+                                            <div class="col card">Card 1</div>
+                                            <div class="col-xs"><p>&emsp;&emsp;</p></div>
+                                            <div class="col card">Card 2</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+
+                <h3 class="text-light text-center">The red and blue divs are lightly padded <span class="text-danger">center</span> containers</h3>
+
+                <span class="text-white fs-400" style="margin-left: 5rem;">
+                    &lt;div class="container center lightly-pad-container bg-danger"&gt;
+                </span>
+                <div class="container center lightly-pad-container bg-danger">
+                    <div class="text-white text-center">
+                        &lt;h3 class="fs-sans-bolder text-white&ensp;<span class="ff-sans-bolder fs-400 text-accent">text-center</span>&nbsp;"&nbsp;&gt;
+                        <h3 class="ff-sans-bolder text-white text-center">Color combinations</h3>
+                        &lt;/h3&gt;
+                    </div>
+
+                    <span class="fs-400 bg-white" style="margin-top: -10rem;">
+                        &lt;div class="container bg-white"&gt;
+                    </span>
+                    <div class="container bg-white">
+                        <h4>A regular ole Bootstrap container</h4>
+                        <p>This one's white with dark text color</p>
+                    </div>
+                    <br>
+                    <span class="fs-400 bg-accent" style="margin-top: -10rem;">
+                        &lt;div class="container bg-accent text-brand-blue"&gt;
+                    </span>
+                    <div class="container bg-accent text-brand-blue">
+                        <h4>A regular ole Bootstrap container</h4>
+                        <p>This one's accent color with brand-blue text color</p>
+                    </div>
+                    <br>
+                    <span class="fs-400 bg-accent" style="margin-top: -10rem;">
+                        &lt;div class="container bg-accent"&gt;
+                    </span>
+                    <div class="container bg-accent">
+                        <h4>A regular ole Bootstrap container</h4>
+                        <p>This one's accent color with dark text color</p>
+                    </div>
+                    <br>
+
+                    <span class="text-white fs-400 bg-dark" style="margin-top: -10rem;">
+                        &lt;div class="container bg-dark text-accent"&gt;
+                    </span>
+                    <div class="container bg-dark text-accent">
+                        <h4>A regular ole Bootstrap container</h4>
+                        <p>This one's dark with accent text color</p>
+                    </div>
+                    <br>
+                    <span class="text-white fs-400 bg-dark" style="margin-top: -10rem;">
+                        &lt;div class="container bg-dark text-white"&gt;
+                    </span>
+                    <div class="container bg-dark text-white">
+                        <h4>A regular ole Bootstrap container</h4>
+                        <p>This one's dark with white text color</p>
+                    </div>
+                    <br>
+                    <span class="text-white fs-400 bg-dark" style="margin-top: -10rem;">
+                        &lt;div class="container bg-accent text-white"&gt;
+                    </span>
+                    <div class="container bg-dark text-brand-blue">
+                        <h4>A regular ole Bootstrap container</h4>
+                        <p>This one's dark color with brand-blue text color</p>
+                    </div>
+                </div>
+                <br>
+
+                <span class="text-white fs-400" style="margin-left: 5rem;">
+                    &lt;div class="container center lightly-pad-container bg-brand-blue"&gt;
+                </span>
+                <div class="container center lightly-pad-container bg-brand-blue">
+                    <div class="text-white text-center">
+                        &lt;h3 class="fs-sans-bolder text-white&ensp;<span class="ff-sans-bolder fs-400 text-accent">text-center</span>&nbsp;"&nbsp;&gt;
+                        <h3 class="ff-sans-bolder text-white text-center">Font style classes</h3>
+                        &lt;/h3&gt;
+                    </div>
+
+                    <span class="text-white fs-400" style="margin-left: 5rem;">
+                        &lt;div class="center bg-white"&gt;
+                    </span>
+                    <div class="center bg-white">
+                        <div class="text-accent">
+                            &lt;h3 class="text-brand-blue"&gt;
+                            <h3 class="text-brand-blue">Font face classes</h3>
+                            &lt;/h3&gt;
+                        </div>
+                        <div class="row card-row">
+                            <div class="col-sm card">
+                                <h3 class="ff-sans-normal">ff-sans-normal</h3>
+                            </div>
+                            <div class="col-xs">&ensp;</div>
+                            <div class="col-sm card">
+                                <h3 class="ff-sans-bolder">ff-sans-bolder</h3>
+                            </div>
+                            <div class="col-xs">&ensp;</div>
+                            <div class="col-sm card">
+                                <h3 class="ff-sans-cond">ff-sans-cond</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="center bg-white">
+                        <div class="text-accent">
+                            &lt;h3 class="text-brand-blue"&gt;
+                            <h3 class="text-brand-blue">Text emphasis classes</h3>
+                            &lt;/h3&gt;
+                        </div>
+                        <p class="text-brand-blue">The font used in these 3 examples is ff-sans-normal</p>
+                        <div class="row card-row">
+                            <div class="col-sm card">
+                                <h3 class="ff-sans-normal textshadow">testshadow</h3>
+                            </div>
+                            <div class="col-xs">&ensp;</div>
+                            <div class="col-sm card">
+                                <h3 class="text-white ff-sans-normal outline-brand-blue">outline-brand-blue</h3>
+                            </div>
+                            <div class="col-xs">&ensp;</div>
+                            <div class="col-sm card">
+                                <h3 class="ff-sans-normal uppercase">uppercase</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="center bg-white">
+                        <div class="text-accent">
+                            &lt;h3 class="text-brand-blue"&gt;
+                            <h3 class="text-brand-blue">Font size classes</h3>
+                            &lt;/h3&gt;
+                        </div>
+
+                        <div class="row card-row">
+                            <div class="col card">
+                                <h3 class="fs-900 text-white ff-sans-normal outline-brand-blue">fs-900</h3>
+                            </div>
+                        </div>
+                        <div class="row card-row">
+                            <div class="col-sm card">
+                                <h3 class="fs-800 ff-sans-normal textshadow">fs-800</h3>
+                            </div>
+                            <div class="col-xs">&emsp;</div>
+                            <div class="col-sm card">
+                                <h3 class="fs-700 ff-sans-normal uppercase">fs-700</h3>
+                            </div>
+                        </div>
+
+                        <div class="row card-row">
+                            <div class="col-sm card">
+                                <h3 class="fs-600 ff-sans-normal textshadow">fs-600</h3>
+                            </div>
+                            <div class="col-xs">&ensp;</div>
+                            <div class="col-sm card">
+                                <h3 class="fs-500 text-white ff-sans-normal outline-brand-blue">fs-500</h3>
+                            </div>
+                            <div class="col-xs">&ensp;</div>
+                            <div class="col-sm card">
+                                <h3 class="fs-400 ff-sans-normal uppercase">fs-400</h3>
+                            </div>
+                        </div>
+
+                        <div class="row card-row">
+                            <div class="col-sm card">
+                                <h3 class="fs-300 ff-sans-normal textshadow">fs-300</h3>
+                            </div>
+                            <div class="col-xs">&ensp;</div>
+                            <div class="col-sm card">
+                                <h3 class="fs-200 text-white ff-sans-normal outline-brand-blue">fs-200</h3>
+                            </div>
+                            <div class="col-xs">&ensp;</div>
+                            <div class="col-sm card">
+                                <h3 class="fs-100 ff-sans-normal uppercase">fs-100</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <footer class="shadow text-right">
+                <div>
+                    <a class="bttn-outline-brand-blue" href="#" alt="Link to About Us page" style="float: left; margin-top: 1em;">About Us</a>
+                    <span class="fs-100 text-right"><a href="#" style="text-decoration: none; color: #000;"> &copy;</a>
+                        &nbsp;ProjectConnect, Inc. 2022</span>
+                </div>
+                <div>
+                    <img class="navbar-img" id="hide-on-small-phone" src="img/projectconnect-logo-footer.png"
+                        alt="ProjectConnect logo featuring prominent C-shape with user icons" style="float: right;">
+                </div>
+            </footer>
+        </div>
+    </body>
+</html>
