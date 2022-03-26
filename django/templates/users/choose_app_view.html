@@ -1,0 +1,33 @@
+{% extends './base.html' %}
+
+{% block page_title %}Choose Application View{% endblock %}
+
+{% block content %}
+<br>
+<div class="container-sm flow">
+    <div class="lightly-pad-container shadow text-break text-center">
+        <h1 class="ff-sans-bolder">Continue as Professor or Student?</h1>
+        <p>
+            Your account has both a professor profile and a student profile.<br>
+            Choose which one you would like to use in this browser session.
+        </p>
+
+        <div class="form-container">
+            <div class="row">
+                <div class="col">
+                    <h3 style="margin-bottom: 2rem;">Professor View</h3>
+                    <a href="{% url 'professors:index' %}">
+                        <button class="bttn-brand-blue">Continue as a professor</button>
+                    </a>
+                </div>
+                <div class="col">
+                    <h3 style="margin-bottom: 2rem;">Student View</h3>
+                    <a href="{% url 'students:index' %}">
+                        <button class="bttn-brand-blue">Continue as a student</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

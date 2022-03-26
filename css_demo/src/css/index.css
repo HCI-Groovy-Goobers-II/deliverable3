@@ -331,6 +331,13 @@ and (max-width: 364px) {
     padding: 10px;
 }
 
+.card-thin-border {
+    background-color: hsl( var(--clr-white) );
+    border: 2px solid hsl( var(--clr-brand-blue) );
+    border-radius: 2px;
+    padding: 10px;
+}
+
 .card-text {
     margin-top: 2%;
 }

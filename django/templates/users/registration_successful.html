@@ -1,0 +1,31 @@
+{% extends './base.html' %}
+
+{% block page_title %}Registration Successful{% endblock %}
+
+{% block content %}
+<br>
+<div class="container-sm flow">
+    <div class="lightly-pad-container shadow text-break text-center">
+        <h1 class="ff-sans-bolder">Registration Successful</h1>
+        <p>
+            Your account has been registered.
+        </p>
+
+        <div class="form-container">
+            <div class="d-flex justify-content-center card-row">
+                <div class="col card-thin-border">
+                    <h4 class="text-center">Your Account</h4>
+                    Name:     {{ user.first_name }} {{ user.last_name }}<br>
+                    Email:    {{ user.email }}
+                </div>
+                <div class="col card-thin-border">
+                    <h4 class="text-center">Login</h4>
+                    <a class="text-center" href="{% url 'users:login' %}" style="margin-top: 1rem;">
+                        <button class="bttn-brand-blue">Go to Login</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

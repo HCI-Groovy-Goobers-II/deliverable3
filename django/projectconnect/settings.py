@@ -39,6 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Our apps:
+    'institutions',
+    'professors',
+    'public_pages',
+    'students',
+    'users',
+
+    # 3rd party:
+    'crispy_forms',
     'storages',
 ]
 
@@ -57,7 +66,9 @@ ROOT_URLCONF = 'projectconnect.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR.joinpath('templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -69,6 +80,8 @@ TEMPLATES = [
         },
     },
 ]
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4' # For Crispy forms
 
 WSGI_APPLICATION = 'projectconnect.wsgi.application'
 
@@ -86,6 +99,8 @@ DATABASES = {
         'PORT': getenv('GOOBERS_DATABASE_PORT')
     }
 }
+
+AUTH_USER_MODEL = "users.EmailAuthUser"
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators

@@ -1,0 +1,44 @@
+{% extends './base.html' %}
+
+{% block page_title %}Login{% endblock page_title %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<br>
+<div class="container-sm flow">
+    <div class="lightly-pad-container shadow text-break text-center">
+        <h1 class="ff-sans-bolder">Sign up for a free account</h1>
+        <div class="form-container">
+            <form action="{% url 'users:register' %}" method='post'>
+                {% crispy form %}
+                <div class="form-row">
+                    <div class="col-25">
+                        <label class="col-form-label requiredField" for="id_tos">Terms of Service*</label>
+                    </div>
+                    <div class="col-75 tos-box">
+                        <input id="id_tos" type="checkbox" name="tos" required="">
+                        <label for="id_tos requiredField">I agree to these <a href="#">Terms and Conditions</a>.</label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-25">
+                        &nbsp;
+                    </div>
+                    <div class="col-25" style="text-align: left;">
+                        <button class="bttn-brand-blue" type="submit"
+                            style="margin-top: 1em; padding-left: 10%; padding-right: 10%;">
+                            Register
+                        </button>
+                    </div>
+                    <div class="col-25" style="text-align: left;">
+                        <button class="bttn-danger" onclick="javascript:window.location.replace('/')"
+                            style="margin-top: 1em; padding-left: 10%; padding-right: 10%;">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
