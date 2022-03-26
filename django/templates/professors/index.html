@@ -7,4 +7,15 @@
 <p class="text-center">
     Welcome {{ user.first_name }}!
 </p>
+
+<ul>
+    {% for student in students %}
+    <li>
+        <div class="row card-row">
+            <div class="col card-light-border">ID: {{ student.user.id }}</div>
+            <div class="col card-light-border">{{ student.user.first_name }} {{ student.user.last_name }}</div>
+        </div>
+    </li>
+    {% endfor %}
+</ul>
 {% endblock content %}

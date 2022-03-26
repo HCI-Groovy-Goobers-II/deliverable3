@@ -2,3 +2,5 @@ migrations
 __pycache__/
 .pyc
 venv/
+.vscode/
+.vs/
