@@ -1,0 +1,42 @@
+{% extends './base.html' %}
+
+{% block page_title %}Edit Professor Profile{% endblock page_title %}
+
+{% block more_links %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+{% endblock more_links %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<br>
+<div class="container-sm flow">
+    <div class="lightly-pad-container shadow text-break text-center">
+        <h2 class="ff-sans-bolder">Edit Professor Profile</h2>
+        <div class="form-container">
+            <br>
+            <form action="{% url 'professors:edit_profile' %}" method='post' enctype='multipart/form-data'>
+                {% crispy form %}
+                <div class="form-row">
+                    <div class="col-25">
+                        &nbsp;
+                    </div>
+                    <div class="col-25" style="text-align: left;">
+                        <button class="bttn-brand-blue" type="submit"
+                            style="margin-top: 1em; padding-left: 10%; padding-right: 10%;">
+                            Save
+                        </button>
+                    </div>
+                    <div class="col-25" style="text-align: left;">
+                        <button class="bttn-danger" onclick="javascript:window.location.replace('/professors')"
+                            style="margin-top: 1em; padding-left: 10%; padding-right: 10%;">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

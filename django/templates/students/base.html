@@ -85,12 +85,32 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#" alt="Link to profile page">
+                            <a class="nav-link profile-dropbtn" onclick="toggleDropdown()" alt="Link to profile page">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1.6em" height="1.6em" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
                                     <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                                 </svg>
                                 <br>Profile
                             </a>
+                            <div class="profile-dropdown-content" id="profile-dropdown-content">
+                                <div class="row card-row">
+                                    <div class="col">
+                                        {% with 'img/students/profile_icons/'|add:student.profile_icon_file_name as profile_icon_static %}
+                                        <img class="border-brand-blue" style="border-radius: 50%;"
+                                            src="{% static profile_icon_static %}" alt="Profile icon">
+                                        {% endwith %}
+                                    </div>
+                                    <div class="col">
+                                        {{ user.first_name }} {{ user.last_name }}
+                                        {% if not student.grade_level == '' %}
+                                        🎓 {{ student.grade_level }}
+                                        {% endif %}
+                                        {% if not student.major == '' %}
+                                         · {{ student.major }}
+                                        {% endif %}
+                                    </div>
+                                    <a href="#">Edit profile</a>
+                                </div>
+                            </div>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#" alt="link to settings page">
@@ -120,6 +140,26 @@
                 alt="ProjectConnect logo featuring prominent C-shape with user icons" style="float: right;">
         </div>
     </footer>
+
+    <script>
+        function toggleDropdown() {
+          document.getElementById("profile-dropdown-content").classList.toggle("show");
+        }
+
+        // Close the dropdown menu if the user clicks outside of it
+        window.onclick = function(event) {
+          if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+              var openDropdown = dropdowns[i];
+              if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+              }
+            }
+          }
+        }
+    </script>
 </body>
 
 </html>
