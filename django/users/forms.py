@@ -90,7 +90,7 @@ class EmailAuthUserCreationForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.form_class='form-horizontal'
-        self.helper.label_class='col-25'
+        self.helper.label_class='col-25 fs-400 ff-sans-normal'
         self.helper.field_class='col-75'
         self.helper.form_tag = False
         self.helper.layout = Layout(

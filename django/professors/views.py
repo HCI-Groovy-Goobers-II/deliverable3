@@ -39,7 +39,7 @@ def edit_profile(request):
                     professor.profile_icon_file_name=image.name
                     professor.save()
 
-        return HttpResponseRedirect(reverse('professors:index'))
+            return HttpResponseRedirect(reverse('professors:index'))
 
     context = { 'form': form }
     return render(request, 'professors/edit_profile_form.html', context)
