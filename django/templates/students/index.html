@@ -1,12 +1,7 @@
 {% extends './base.html' %}
+{% load static %}
 
 {% block page_title %}Home{% endblock page_title %}
-
-{% block more_links %}
-{% load static %}
-<script src="{% static 'js/list.js' %}"></script>
-<script src="{% static 'js/student-search.js' %}"></script>
-{% endblock more_links %}
 
 {% block page_style %}
     #navbar-brand { white-space: nowrap; }
@@ -61,7 +56,7 @@
                 <div class="row bg-white border-brand-blue">
                     <div class="col-xs">
                         {% with 'img/students/profile_icons/'|add:student.profile_icon_file_name as profile_icon_static %}
-                        <img class="border-brand-blue" alt="Kevin Russells's profile" src="{% static profile_icon_static %}" style="border-radius: 50%;" width="100px">
+                        <img class="border-brand-blue" alt="{{ student.user.first_name }} {{ student.user.last_name }}'s profile" src="{% static profile_icon_static %}" style="border-radius: 50%;" width="100px">
                         {% endwith %}
                     </div>
                     <div class="col-md">
@@ -103,6 +98,8 @@
     </div>
 </div>
 
+<script src="{% static 'js/list.js' %}"></script>
+<script src="{% static 'js/student-search.js' %}"></script>
 <script>
     $(document).ready(function() {
         let studentRatingSort = document.getElementById('student-rating-sort');
