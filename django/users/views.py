@@ -80,6 +80,11 @@ def register(request):
                 role_choice = formdata['role_choice']
                 professors_group = Group.objects.get(name='professors')
                 students_group = Group.objects.get(name='students')
+
+                print("ROLE CHOICE")
+                print(role_choice)
+
+
                 if role_choice == 'both':
                     user.groups.add(professors_group)
                     user.groups.add(students_group)
@@ -109,6 +114,7 @@ def register(request):
                         institution=institutions[0],
                         user=user
                     )
+                    student.save()
                 else:
                     user.groups.add(professors_group)
                     prof = Professor(

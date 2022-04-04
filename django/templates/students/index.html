@@ -2,9 +2,140 @@
 
 {% block page_title %}Home{% endblock page_title %}
 
+{% block more_links %}
+{% load static %}
+<script src="{% static 'js/list.js' %}"></script>
+<script src="{% static 'js/student-search.js' %}"></script>
+{% endblock more_links %}
+
+{% block page_style %}
+    #navbar-brand { white-space: nowrap; }
+    .bttn, .navbar-img { display: inline-block; }
+
+    ul.list li {
+        margin-top: 20px;
+    }
+
+    #disp-block-when-small {
+        display: inline;
+    }
+
+    @media only screen
+    and (max-width: 608px) {
+        #disp-block-when-small {
+            display: block;
+            margin-top: 1em;
+        }
+    }
+{% endblock page_style %}
+
 {% block content %}
 <h1 class="text-center">You've reached the students home page</h1>
 <p class="text-center">
     Welcome {{ user.first_name }}!
 </p>
+
+<div class="center" id="student-search-list" style="align-items: right; text-align: right;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+    </svg>
+    <input type="text" class="search" placeholder="Name, grade level, rating" style="border-radius: 5px; vertical-align: middle;">
+    <div class="fs-200" id="disp-block-when-small">
+        <a style="margin-left: 14px;">
+            <button class="sort btn btn-outline-primary" id="student-name-sort" data-sort="student-name">
+                <i class="bi bi-sort-alpha-up" id="student-name-sort-icon"></i>
+            </button>
+            Sort A-Z
+        </a>
+        <a style="margin-left: 14px;">
+            <button class="sort btn btn-outline-primary" id="student-rating-sort" data-sort="student-rating">
+                <i class="bi bi-sort-numeric-up" id="student-rating-sort-icon"></i>
+            </button>
+            Sort rating
+        </a>
+    </div>
+    <div class="center">
+        <ul class="list">
+            {% for student in students %}
+            <li>
+                <div class="row bg-white border-brand-blue">
+                    <div class="col-xs">
+                        {% with 'img/students/profile_icons/'|add:student.profile_icon_file_name as profile_icon_static %}
+                        <img class="border-brand-blue" alt="Kevin Russells's profile" src="{% static profile_icon_static %}" style="border-radius: 50%;" width="100px">
+                        {% endwith %}
+                    </div>
+                    <div class="col-md">
+                        <p class="fs-600">
+                            <a class="student-name">{{ student.user.first_name }}  {{ student.user.last_name }}</a>
+                        </p>
+                        <p>
+                            🎓<a class="student-gradelevel">{{ student.grade_level }}</a>&nbsp;<a class="student-major">Business Management</a>
+                            <br>
+                        </p>
+                        {% if not student.minor == '' %}
+                        <p>
+                            🤓<a class="student-minor">Minor: {{ student.minor }}</a>
+                        </p>
+                        {% endif %}
+                        <a class="student-rating">
+                        {% if not student.avg_rating == 0 %}
+                            {% if student.avg_rating < 2 %}
+                            ★
+                            {% elif student.avg_rating < 3 %}
+                            ★★
+                            {% elif student.avg_rating < 4 %}
+                            ★★★
+                            {% elif student.avg_rating < 5 %}
+                            ★★★★
+                            {% else %}
+                            ★★★★★
+                            {% endif %}
+                        {% endif %}
+                        </a>
+                    </div>
+                    <div class="col-md center">
+                        <a class="bttn-outline-brand-blue" href="#">Connect</a>
+                    </div>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function() {
+        let studentRatingSort = document.getElementById('student-rating-sort');
+        let studentNameSort = document.getElementById('student-name-sort');
+        let studentRatingSortIcon = document.getElementById('student-rating-sort-icon');
+        let studentNameSortIcon = document.getElementById('student-name-sort-icon');
+
+        let sortNumericUp_Displayed = true;
+        let sortNameUp_Displayed = true;
+
+        studentRatingSort.addEventListener('click', () => {
+            if (sortNumericUp_Displayed) {
+                studentRatingSortIcon.classList.remove("bi-sort-numeric-up");
+                studentRatingSortIcon.classList.add("bi-sort-numeric-down-alt");
+            }
+            else {
+                studentRatingSortIcon.classList.remove("bi-sort-numeric-down-alt");
+                studentRatingSortIcon.classList.add("bi-sort-numeric-up");
+            }
+            sortNumericUp_Displayed = !sortNumericUp_Displayed;
+        });
+
+        studentNameSort.addEventListener('click', () => {
+            if (sortNameUp_Displayed) {
+                studentNameSortIcon.classList.remove("bi-sort-alpha-up");
+                studentNameSortIcon.classList.add("bi-sort-alpha-down-alt");
+            }
+            else {
+                studentNameSortIcon.classList.remove("bi-sort-alpha-down-alt");
+                studentNameSortIcon.classList.add("bi-sort-alpha-up");
+            }
+            sortNameUp_Displayed = !sortNameUp_Displayed;
+        });
+    });
+</script>
 {% endblock content %}
