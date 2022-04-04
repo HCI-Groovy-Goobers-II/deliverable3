@@ -42,25 +42,25 @@ class Professor(models.Model):
             f"profile icon path:      '{S3ProfessorUpload._upload_to}'\n"
             f"profile icon file name: '{self.profile_icon_file_name}'"
         )
-    
-    class Course(models.Model):
-        code = models.CharField(max_length=20)
-        description = models.CharField(max_length=200)
-        professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
-    
-    class Project(models.Model):
-        title = models.CharField(max_length=20)
-        description = models.CharField(max_length=200)
-        start_date = models.DateTimeField()
-        end_date = models.DateTimeField()
-        course = models.ForeignKey(Course, on_delete=models.CASCADE)
-    
-    class Section(models.Model):
-        section_code = models.CharField(max_length=20)
-        description = models.CharField(max_length=200)
-        course = models.ForeignKey(Course, on_delete=models.CASCADE)
-        projects = models.ManyToManyField(Project)
-        students = models.ManyToManyField(Student) 
+
+class Course(models.Model):
+    code = models.CharField(max_length=20)
+    description = models.CharField(max_length=200)
+    professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
+
+class Project(models.Model):
+    title = models.CharField(max_length=20)
+    description = models.CharField(max_length=200)
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+class Section(models.Model):
+    section_code = models.CharField(max_length=20)
+    description = models.CharField(max_length=200)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    projects = models.ManyToManyField(Project)
+    students = models.ManyToManyField(Student) 
 
 
     
