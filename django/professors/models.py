@@ -29,7 +29,7 @@ class Professor(models.Model):
     bio          = models.CharField(max_length=300)
 
     profile_icon           = models.FileField()
-    profile_icon_file_name = models.TextField(default='default_profile_icon.png')
+    profile_icon_file_name = models.CharField(max_length=30, default='default_profile_icon.png')
 
     institution = models.ForeignKey(Institution, on_delete=models.DO_NOTHING)
     user = models.ForeignKey(EmailAuthUser, on_delete=models.CASCADE)

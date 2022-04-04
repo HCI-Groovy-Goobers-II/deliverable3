@@ -47,7 +47,7 @@ class Student(models.Model):
     avg_communicativeness = models.FloatField(default=0)
 
     profile_icon           = models.FileField()
-    profile_icon_file_name = models.TextField(default='default_profile_icon.png')
+    profile_icon_file_name = models.CharField(max_length=30, default='default_profile_icon.png')
 
     institution = models.ForeignKey(Institution, on_delete=models.DO_NOTHING)
     roles = models.ManyToManyField(StudentRole)
