@@ -1,0 +1,43 @@
+{% extends './base.html' %}
+
+{% block page_title %}Debug{% endblock page_title %}
+
+{% block content %}
+<h1 class="text-center">You've reached the professors home page</h1>
+<p class="text-center">
+    Welcome {{ user.first_name }}!
+
+    <h1>debug:</h1>
+</p>
+
+<ul>
+    <h1>Courses</h1>
+    {% for course in courses %}
+    <li>
+        <div class="row card-row">
+            <div class="col card-light-border"> {{course}} {{course.id}} {{course.code}} {{course.professor}} {{course.description}}</div>
+        </div>
+    <li>
+</ul>
+{% endfor%}
+<ul>
+    <h1>Projects</h1>
+    {% for project in projects %}
+    <li>
+        <div class="row card-row">
+            <div class="col card-light-border"> {{project.title}} {{project.course}}</div>
+        </div>
+    <li>
+</ul>
+{% endfor%}
+<ul>
+    <h1>Sections</h1>
+    {% for section in sections %}
+    <li>
+        <div class="row card-row">
+            <div class="col card-light-border"> {{section.section_code}} {{section.course}} {{section.projects}} {{section.students}}</div>
+        </div>
+    <li>
+</ul>
+{% endfor%}
+{% endblock content %}

@@ -8,7 +8,8 @@ from students.models import Student
 from functools import partial
 from os import path
 
-# _update and _upload functions from https://newbedev.com/how-to-change-the-file-name-of-an-uploaded-file-in-django
+#region _update and _upload functions from https://newbedev.com/how-to-change-the-file-name-of-an-uploaded-file-in-django
+
 def _update_filename(instance, filename, path):
     return path.join(path, filename)
 
@@ -21,8 +22,9 @@ class S3Upload(models.Model):
 class S3ProfessorUpload(S3Upload):
     _upload_to='img/professors/profile_icons'
     file = models.FileField(upload_to=(_upload_to))
+#endregion
 
-#region Professor
+#region Professor Model
 class Professor(models.Model):
     title        = models.CharField(max_length=100)
     pronouns     = models.CharField(max_length=100)
@@ -45,14 +47,14 @@ class Professor(models.Model):
         )
 #endregion
 
-#region Course
+#region Course Model
 class Course(models.Model):
     code = models.CharField(max_length=20)
     description = models.CharField(max_length=200)
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
 #endregion
 
-#region Project
+#region Project Model
 class Project(models.Model):
     title = models.CharField(max_length=20)
     description = models.CharField(max_length=200)
@@ -61,7 +63,7 @@ class Project(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 #endregion
 
-#region Section
+#region Section Model
 class Section(models.Model):
     section_code = models.CharField(max_length=20)
     description = models.CharField(max_length=200)

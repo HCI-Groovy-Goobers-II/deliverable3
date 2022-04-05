@@ -4,13 +4,12 @@ from django.urls import reverse
 from django.shortcuts import render
 from professors.forms import ProfessorForm, CreateCourseForm, CreateProjectForm, CreateSectionForm
 from users.decorators import allowed_users
-from professors.models import Professor, S3ProfessorUpload
+from professors.models import Professor, Course, Project, Section, S3ProfessorUpload
 from students.models import Student
 from datetime import datetime as dt, timedelta
 from os import path
 
 
-#region Routes Request-Returns
 
 #region Index Request Return
 @login_required
@@ -18,54 +17,46 @@ from os import path
 def index(request):
     context = {
 
+
     }
     return render(request, 'professors/index.html', context)
 #endregion
 
-#region Create Course Request Return
+
+#region Debug Request Return
 @login_required
 @allowed_users(allowed_groups=['professors'])
-def controls(request):
+def debug(request):
+    courses = Course.objects.all()
+    projects = Project.objects.all()
+    sections = Section.objects.all()
+    students = Student.objects.all()
     context = {
 
-    }
-    return render(request, 'professors/create_course.html', context)
-#endregion
+        'courses': courses,
+        'project': projects,
+        'section': sections,
+        'student': students
 
-#region Create Project Request Return
-@login_required
-@allowed_users(allowed_groups=['professors'])
-def controls(request):
-    context = {
 
     }
-    return render(request, 'professors/create_project.html', context)
+    return render(request, 'professors/debug.html', context)
 #endregion
 
-#region Create Project Request Return
-@login_required
-@allowed_users(allowed_groups=['professors'])
-def controls(request):
-    context = {
 
-    }
-    return render(request, 'professors/create_section.html', context)
-#endregion
 
-#endregion
+#region Form Views
 
-#region Forms Request-Returns
-
-#region ProfessorForm Request Return
+#region edit_profile (Edit a Professor's profile)
 @login_required
 @allowed_users(allowed_groups=['professors'])
 def edit_profile(request):
-    professor = Professor.objects.get(user=request.user) #Get  the current professor
+    professor = Professor.objects.get(user=request.user) 
 
-    if request.method != 'POST': #If the request method IS NOT a POST
-        form = ProfessorForm(instance=professor) #Form is set equal to the ProfessorForm with an instance of the 
-                                                # specified professor
-    else:                                       #OTHERWISE
+    if request.method != 'POST': 
+        form = ProfessorForm(instance=professor) 
+                                                
+    else:                                       
         form = ProfessorForm(instance=professor, data=request.POST) 
         if form.is_valid():
             form.save()
@@ -84,59 +75,70 @@ def edit_profile(request):
     return render(request, 'professors/edit_profile_form.html', context)
 #endregion
 
-#region CreateCourse Request Return
+
+
+#region create_course (Form to create a course)
 @login_required
 @allowed_users(allowed_groups=['professors'])
-def create_course(request):
-    professor = Professor.objects.get(user=request.user) #Get  the current professor
+def create_course(request): 
+    professor = Professor.objects.get(user=request.user) #get the current professor
+    course = Course(professor=professor) #create a course and specify that the professor value of the course will be set = to the professor
 
-    if request.method != 'POST': #If the request method IS NOT a POST
-        form = CreateCourseForm() #Form is set equal to the ProfessorForm with an instance of the 
-                                                # specified professor
-    else:                                       #OTHERWISE
-        form = CreateCourseForm(instance=professor, data=request.POST) 
+    if request.method != 'POST':  
+        form = CreateCourseForm(instance=course)  #Create the form instance of the course
+        instance=course # ?
+                                               
+    else:                                       
+        form = CreateCourseForm(instance=course, data=request.POST) #Create the form, instance of the course with a DR post 
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('professors:create_class'))
+            form.save() #If the form is valid, save it.
+        course.save()
+
+        return HttpResponseRedirect(reverse('professors:index')) #Return to the index
 
     context = { 'form': form }
-    return render(request, 'professors/create_class.html', context)
+    return render(request, 'professors/create_course_form.html', context)
 #endregion
 
-#region CreateProject Request Return
+#region create_project (Form to create a project)
 @login_required
 @allowed_users(allowed_groups=['professors'])
 def create_project(request):
     professor = Professor.objects.get(user=request.user)
-
+    course = Course.objects.get(professor=professor)
+    project = Project(course=course)
     if request.method != 'POST':
         form = CreateProjectForm() 
-                                                
-        form = CreateProjectForm(instance=professor, data=request.POST) 
+
+    else:                                  
+        form = CreateProjectForm(data=request.POST) 
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('professors:create_project'))
+        project.save()
+         
+        return HttpResponseRedirect(reverse('professors:index'))
 
     context = { 'form': form }
-    return render(request, 'professors/create_project.html', context)
+    return render(request, 'professors/create_project_form.html', context)
 #endregion
 
-#region CreateSection Request Return
+#region create_section (Form to create a section)
 @login_required
 @allowed_users(allowed_groups=['professors'])
 def create_section(request):
-    professor = Professor.objects.get(user=request.user)
 
     if request.method != 'POST':
         form = CreateSectionForm() 
-                                                
-        form = CreateSectionForm(instance=professor, data=request.POST) 
+
+    else:                                       
+        form = CreateSectionForm(data=request.POST) 
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('professors:create_section'))
+             
+        return HttpResponseRedirect(reverse('professors:index'))
 
     context = { 'form': form }
-    return render(request, 'professors/create_section.html', context)
+    return render(request, 'professors/create_section_form.html', context)
 #endregion
 
 

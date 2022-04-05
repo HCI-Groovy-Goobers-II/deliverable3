@@ -74,15 +74,6 @@ class CreateCourseForm(forms.ModelForm):
         })    
     )
     
-   #professor = forms.CharField(
-    #    label='Associated Professor',
-     #   required=True,
-      #  widget=forms.TextInput(attrs={
-         #   'placeholder': 'The Professor..',
-       # })
-        #professor = Professor.objects.get(user=request.user)     
-#    )
-
 
 
     class Meta:
@@ -105,9 +96,6 @@ class CreateCourseForm(forms.ModelForm):
             Row(
                 Column('description')
             ),
-           # Row(
-            #    Column('professor')
-           # )
         )
 
 class CreateProjectForm(forms.ModelForm):
@@ -146,11 +134,11 @@ class CreateProjectForm(forms.ModelForm):
     )
 
     course = forms.CharField(
-        label='Associated Course',
+       label='Associated Course',
         required=True,
         widget=forms.TextInput(attrs={
-            'placeholder': 'The course for the project..',
-        })              
+           'placeholder': 'The course for the project..',
+       })              
     
     )    
 
