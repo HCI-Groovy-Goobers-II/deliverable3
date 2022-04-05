@@ -12,6 +12,7 @@ from .forms import *
 
 User = get_user_model()
 
+#region Route the user depending on if theyre a professor or a student
 @login_required
 def route_user(request):
     if request.user.groups.exists():
@@ -30,7 +31,9 @@ def route_user(request):
             return HttpResponseRedirect(reverse('professors:index'))
     else:
         return HttpResponseRedirect(reverse('public_pages:index'))
+#endregion
 
+#region login_view
 def login_view(request):
     logout(request)
     if request.method != 'POST':
@@ -45,14 +48,18 @@ def login_view(request):
                 if user.is_active:
                     login(request, user)
                     return HttpResponseRedirect(reverse('users:route_user'))
+#endregion
 
     context = { 'form': form }
     return render(request, 'users/login.html', context)
 
+#region logout view
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect(reverse('public_pages:index'))
+#endregion
 
+#region Register Form
 def register(request):
     if request.method != 'POST':
         form = EmailAuthUserCreationForm()
@@ -136,6 +143,8 @@ def register(request):
 
     context = { 'form': form }
     return render(request, 'users/register.html', context)
+#endregion
+
 
 def choose_app_view(request):
     return render(request, 'users/choose_app_view.html', {})

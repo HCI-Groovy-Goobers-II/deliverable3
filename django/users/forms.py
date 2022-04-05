@@ -24,6 +24,7 @@ APP_ROLES = (
     ('both', 'Both')
 )
 
+#region Create an EmailAuthUser
 class EmailAuthUserCreationForm(forms.Form):
     first_name = forms.CharField(
         label='First name',
@@ -113,6 +114,7 @@ class EmailAuthUserCreationForm(forms.Form):
                 Column('role_choice')
             )
         )
+#endregion
 
 class LoginForm(forms.Form):
     username = forms.EmailField(

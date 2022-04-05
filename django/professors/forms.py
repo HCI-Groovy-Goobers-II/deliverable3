@@ -1,6 +1,7 @@
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Row, Column
+from django.http import HttpResponse, HttpResponseRedirect
 from .models import *
 
 class ProfessorForm(forms.ModelForm):
@@ -55,3 +56,204 @@ class ProfessorForm(forms.ModelForm):
         self.helper.label_class='col-25 fs-400 ff-sans-normal'
         self.helper.field_class='col-75'
         self.helper.form_tag = False
+
+class CreateCourseForm(forms.ModelForm):
+    code = forms.CharField(
+        label='Class code',
+        required=True,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'The class code..',
+        })
+    )
+
+    description = forms.CharField(
+        label='Description',
+        required=True,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'The description..',
+        })    
+    )
+    
+   #professor = forms.CharField(
+    #    label='Associated Professor',
+     #   required=True,
+      #  widget=forms.TextInput(attrs={
+         #   'placeholder': 'The Professor..',
+       # })
+        #professor = Professor.objects.get(user=request.user)     
+#    )
+
+
+
+    class Meta:
+        model = Course
+        fields = [
+            'code','description','professor',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class='form-horizontal'
+        self.helper.label_class='col-25 fs-400 ff-sans-normal'
+        self.helper.field_class='col-75'
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Row(
+                Column('code')
+            ),
+            Row(
+                Column('description')
+            ),
+           # Row(
+            #    Column('professor')
+           # )
+        )
+
+class CreateProjectForm(forms.ModelForm):
+    title = forms.CharField(
+        label='Project Title',
+        required=True,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'The title of the Project..',
+        })
+    )
+
+    description = forms.CharField(
+        label='Description',
+        required=True,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'The description..',
+        })
+    )
+
+    start_date = forms.CharField(
+        label='Start Date',
+        required=True,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'The start date..',
+        })
+    )
+
+
+    end_date = forms.CharField(
+        label='End Date',
+        required=True,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'The end date..',
+        })              
+    
+    )
+
+    course = forms.CharField(
+        label='Associated Course',
+        required=True,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'The course for the project..',
+        })              
+    
+    )    
+
+    class Meta:
+        model = Project
+        fields = [
+            'title', 'description', 'start_date', 'end_date', 'course',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class='form-horizontal'
+        self.helper.label_class='col-25 fs-400 ff-sans-normal'
+        self.helper.field_class='col-75'
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Row(
+                Column('title')
+            ),
+            Row(
+                Column('description')
+            ),
+            Row(
+                Column('start_date')
+            ),
+            Row(
+                Column('end_date')
+            ),
+            Row(
+                Column('course')
+            ),                          
+        )
+
+class CreateSectionForm(forms.ModelForm):
+    section_code = forms.CharField(
+        label='Section Code',
+        required=True,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'The code of the section..',
+        })
+    )
+
+    description = forms.CharField(
+        label='Description',
+        required=True,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'The description of the section..',
+        })
+    )
+
+    course = forms.CharField(
+        label='Course',
+        required=True,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'The course of the section..',
+        })
+    )    
+
+    projects = forms.CharField(
+        label='Projects',
+        required=True,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'The projects of the section..',
+        })
+    )    
+
+
+    students = forms.CharField(
+        label='Students',
+        required=True,
+        widget=forms.TextInput(attrs={
+            'placeholder': 'The students of the section..',
+        })
+    )    
+
+    class Meta:
+        model = Section
+        fields = [
+            'section_code', 'description', 'course', 'projects', 'students',
+        ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class='form-horizontal'
+        self.helper.label_class='col-25 fs-400 ff-sans-normal'
+        self.helper.field_class='col-75'
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Row(
+                Column('title')
+            ),
+            Row(
+                Column('description')
+            ),
+            Row(
+                Column('course')
+            ),
+            Row(
+                Column('projects')
+            ),
+            Row(
+                Column('students')
+            ),                          
+        )

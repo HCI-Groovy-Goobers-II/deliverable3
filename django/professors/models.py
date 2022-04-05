@@ -22,6 +22,7 @@ class S3ProfessorUpload(S3Upload):
     _upload_to='img/professors/profile_icons'
     file = models.FileField(upload_to=(_upload_to))
 
+#region Professor
 class Professor(models.Model):
     title        = models.CharField(max_length=100)
     pronouns     = models.CharField(max_length=100)
@@ -42,26 +43,32 @@ class Professor(models.Model):
             f"profile icon path:      '{S3ProfessorUpload._upload_to}'\n"
             f"profile icon file name: '{self.profile_icon_file_name}'"
         )
+#endregion
 
+#region Course
 class Course(models.Model):
     code = models.CharField(max_length=20)
     description = models.CharField(max_length=200)
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
+#endregion
 
+#region Project
 class Project(models.Model):
     title = models.CharField(max_length=20)
     description = models.CharField(max_length=200)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
+#endregion
 
+#region Section
 class Section(models.Model):
     section_code = models.CharField(max_length=20)
     description = models.CharField(max_length=200)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     projects = models.ManyToManyField(Project)
     students = models.ManyToManyField(Student) 
-
+#endregion
 
     
         
