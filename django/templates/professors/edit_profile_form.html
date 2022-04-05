@@ -15,7 +15,7 @@
     <div class="lightly-pad-container shadow text-break text-center">
         <h2 class="ff-sans-bolder">Edit Professor Profile</h2>
         <div class="form-container">
-            <div class="row" >
+            <div class="row">
                 <div class="col-25"></div>
                 <div class="col-75">
                     <div class="col-25">
@@ -64,10 +64,6 @@
                 $('#profile-icon').attr('src', e.target.result);
             }
             reader.readAsDataURL(input.files[0]);
-        }
-        else
-        {
-            $('#profile-icon').attr('src', '/assets/no_preview.png');
         }
     });
 </script>
