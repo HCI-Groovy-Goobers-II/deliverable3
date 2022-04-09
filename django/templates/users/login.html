@@ -11,10 +11,15 @@ span.asteriskField { display: none; }
 <div class="login-container shadow">
     <h2 class="text-center">Sign in to continue</h2>
     <br>
+    {% for message in messages %}
+    <div class="alert alert-warning">
+        <a class="close" href="#" data-dismiss="alert">×</a>
+           {{ message }}
+    </div>
+    {% endfor %}
     <form action="{% url 'users:login' %}" method='post'>
         {% crispy form %}
-
-        <div class="d-flex justify-content-center">
+        <div class="d-flex pad-container justify-content-center">
             <button class="bttn-brand-blue" type="submit"
                 style="margin-top: 1em; padding-left: 10%; padding-right: 10%;">
                 Log In
@@ -22,6 +27,6 @@ span.asteriskField { display: none; }
         </div>
     </form>
     <br>
-    Forgot your password?&nbsp;<a href="#">Reset it here</a>.
+    Forgot your password?&nbsp;<a href="{% url 'users:reset_password' %}">Reset it here</a>.
 </div>
 {% endblock content %}
