@@ -82,7 +82,7 @@ class EmailAuthUserCreationForm(forms.Form):
         if EmailAuthUser.objects.filter(email=self.cleaned_data['email'].lower()).exists():
             self.add_error('email', 'An account with this email address already exists.')
 
-    def clean_password(self):
+    def clean_password_confirm(self):
         passwd1 = self.cleaned_data['password']
         passwd2 = self.cleaned_data['password_confirm']
 
