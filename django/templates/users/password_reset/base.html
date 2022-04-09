@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+<head>
+  <title>{{ meta_title }}: {% block page_title %}{% endblock page_title %}</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href='https://fonts.googleapis.com/css?family=Muli' rel='stylesheet'>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="{% static 'css/index.css' %}">
+  <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+
+  <style>
+    ul { list-style: none; }
+  	li { color: red; }
+    {% block page_style %}{% endblock page_style %}
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white"
+  style="border-top: 1px solid hsl( var(--clr-brand-blue) ); border-bottom: 3px solid hsl( var(--clr-brand-blue) );">
+  <div class="navbar-brand">
+      <a href="{% url 'public_pages:index' %}"><img class="navbar-img" src="{% static 'img/projectconnect-logo-lg.png' %}"
+          alt="ProjectConnect logo featuring prominent C-shape with user icons" width="10%" style="margin-right: 1rem;"></a>
+  </div>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse"
+      data-target="#navbarResponsive" aria-controls="navbarResponsive"
+      aria-expanded="false", aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarResponsive">
+      <ul class="navbar-nav mr-auto" style="text-align: center;">
+          <li class="nav-item">
+              <a class="nav-link active" href="{% url 'public_pages:index' %}" alt="Link to homepage">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="1.6em" height="1.6em" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+                      <path fill-rule="evenodd" d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293l6-6zm5-.793V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+                      <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+                  </svg>
+                  <br>Home<span class="sr-only">(current)</span>
+              </a>
+          </li>
+      </ul>
+  </div>
+</nav>
+
+{% block content %}{% endblock content %}
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</body>
+</html>

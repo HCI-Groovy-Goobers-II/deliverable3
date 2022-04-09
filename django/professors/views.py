@@ -71,7 +71,7 @@ def edit_profile(request):
 
             return HttpResponseRedirect(reverse('professors:index'))
 
-    context = { 'form': form }
+    context = { 'professor': professor, 'form': form }
     return render(request, 'professors/edit_profile_form.html', context)
 #endregion
 

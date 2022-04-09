@@ -3,6 +3,7 @@ from .models import *
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Row, Column
 from password_validator import PasswordValidator
+from django.contrib.auth.forms import SetPasswordForm
 
 schema1 = PasswordValidator()
 schema2 = PasswordValidator()
@@ -78,14 +79,26 @@ class EmailAuthUserCreationForm(forms.Form):
         required=True,
     )
 
+    def clean_email(self):
+        if EmailAuthUser.objects.filter(email=self.cleaned_data['email'].lower()).exists():
+            self.add_error('email', 'An account with this email address already exists.')
+
     def clean_password(self):
-        passwd = self.cleaned_data['password']
-        if len(passwd) < 8:
-            self.add_error('password', "Password must be 8-100 characters")
-        if not schema1.validate(passwd):
-            self.add_error('password', "Password must have an uppercase and a lowercase letter")
-        if not schema2.validate(passwd):
-            self.add_error('password' "Password must contain a digit and no spaces")
+        passwd1 = self.cleaned_data['password']
+        passwd2 = self.cleaned_data['password_confirm']
+
+        if passwd1 and passwd2:
+            # Check that passwords match
+            if passwd1 != passwd2:
+                self.add_error('password_confirm', 'The passwords do not match.')
+
+            # Check password requirements
+            if len(passwd1) < 8:
+                self.add_error('password', "Password must be 8-100 characters")
+            if not schema1.validate(passwd1):
+                self.add_error('password', "Password must have an uppercase and a lowercase letter")
+            if not schema2.validate(passwd1):
+                self.add_error('password' "Password must contain a digit and no spaces")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -127,6 +140,33 @@ class LoginForm(forms.Form):
         required=True,
         widget=forms.PasswordInput()
     )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.form_class='form-horizontal'
+        self.helper.label_class='col-25 fs-400 ff-sans-normal'
+        self.helper.field_class='col-75'
+        self.helper.form_tag = False
+
+class CustomSetPasswordForm(SetPasswordForm):
+    def clean_new_password2(self):
+        print(self.cleaned_data.keys())
+        passwd1 = self.cleaned_data['new_password1']
+        passwd2 = self.cleaned_data['new_password2']
+
+        if passwd1 and passwd2:
+            # Check that passwords match
+            if passwd1 != passwd2:
+                self.add_error('new_password2', 'The passwords do not match.')
+
+            # Check password requirements
+            if len(passwd1) < 8:
+                self.add_error('new_password1', "Password must be 8-100 characters")
+            if not schema1.validate(passwd1):
+                self.add_error('new_password1', "Password must have an uppercase and a lowercase letter")
+            if not schema2.validate(passwd1):
+                self.add_error('new_password1', "Password must contain a digit and no spaces")
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

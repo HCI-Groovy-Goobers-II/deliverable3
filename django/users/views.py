@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, get_user_model, login, logout
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from institutions.models import Institution
 from professors.models import Professor
 from students.models import Student
@@ -48,7 +48,9 @@ def login_view(request):
                 if user.is_active:
                     login(request, user)
                     return HttpResponseRedirect(reverse('users:route_user'))
-#endregion
+            else:
+                messages.error(request, 'Email or password not correct')
+                return redirect('users:login')
 
     context = { 'form': form }
     return render(request, 'users/login.html', context)
@@ -67,12 +69,6 @@ def register(request):
         form = EmailAuthUserCreationForm(data=request.POST)
         formdata = request.POST
 
-        if formdata['password']!=formdata['password_confirm']:
-                form.add_error('password_confirm', 'The passwords do not match.')
-
-        if User.objects.filter(email=formdata['email'].lower()).exists():
-            form.add_error('email', 'An account with this email address already exists.')
-
         if form.is_valid():
             email_domain = formdata['email'].split('@')[1]
             institutions = Institution.objects.filter(student_email_domain=email_domain)
@@ -88,9 +84,7 @@ def register(request):
                 professors_group = Group.objects.get(name='professors')
                 students_group = Group.objects.get(name='students')
 
-                print("ROLE CHOICE")
                 print(role_choice)
-
 
                 if role_choice == 'both':
                     user.groups.add(professors_group)
