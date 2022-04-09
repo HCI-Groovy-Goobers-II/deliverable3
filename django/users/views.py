@@ -78,7 +78,6 @@ def register(request):
                 professors_group = Group.objects.get(name='professors')
                 students_group = Group.objects.get(name='students')
 
-                print("ROLE CHOICE")
                 print(role_choice)
 
                 if role_choice == 'both':
