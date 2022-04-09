@@ -22,6 +22,7 @@ def index(request):
     return render(request, 'professors/index.html', context)
 #endregion
 
+<<<<<<< Updated upstream
 
 #region Debug Request Return
 @login_required
@@ -39,6 +40,25 @@ def debug(request):
         'student': students
 
 
+=======
+
+#region Debug Request Return
+@login_required
+@allowed_users(allowed_groups=['professors'])
+def debug(request):
+    courses = Course.objects.all()
+    projects = Project.objects.all()
+    sections = Section.objects.all()
+    students = Student.objects.all()
+    context = {
+
+        'courses': courses,
+        'projects': projects,
+        'sections': sections,
+        'students': students
+
+
+>>>>>>> Stashed changes
     }
     return render(request, 'professors/debug.html', context)
 #endregion
@@ -104,6 +124,7 @@ def create_course(request):
 @login_required
 @allowed_users(allowed_groups=['professors'])
 def create_project(request):
+<<<<<<< Updated upstream
     professor = Professor.objects.get(user=request.user)
     course = Course.objects.get(professor=professor)
     project = Project(course=course)
@@ -112,6 +133,14 @@ def create_project(request):
 
     else:                                  
         form = CreateProjectForm(data=request.POST) 
+=======
+    project = Project()
+    if request.method != 'POST':
+        form = CreateProjectForm(instance=project, request=request) 
+
+    else:                                  
+        form = CreateProjectForm(instance=project, request=request, data=request.POST) 
+>>>>>>> Stashed changes
         if form.is_valid():
             form.save()
         project.save()
@@ -126,12 +155,21 @@ def create_project(request):
 @login_required
 @allowed_users(allowed_groups=['professors'])
 def create_section(request):
+<<<<<<< Updated upstream
 
     if request.method != 'POST':
         form = CreateSectionForm() 
 
     else:                                       
         form = CreateSectionForm(data=request.POST) 
+=======
+    section = Section()
+    if request.method != 'POST':
+        form = CreateSectionForm(instance=section, request=request)
+
+    else:                                       
+        form = CreateSectionForm(request=request, data=request.POST) 
+>>>>>>> Stashed changes
         if form.is_valid():
             form.save()
              
@@ -141,5 +179,24 @@ def create_section(request):
     return render(request, 'professors/create_section_form.html', context)
 #endregion
 
+<<<<<<< Updated upstream
 
 #endregion
+=======
+@login_required
+@allowed_users(allowed_groups=['professors'])
+def index(request):
+    professor = Professor.objects.get(user=request.user)
+    course = Course.objects.all()
+    context = {
+        'course' : course,
+        'courses' : Course.objects.filter(professor=professor),
+
+    }
+    return render(request, 'professors/index.html', context)
+
+
+
+
+
+>>>>>>> Stashed changes

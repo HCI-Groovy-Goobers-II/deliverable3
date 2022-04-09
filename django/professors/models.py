@@ -47,6 +47,15 @@ class Professor(models.Model):
         )
 #endregion
 
+<<<<<<< Updated upstream
+=======
+    def print_userfriendly(self):
+        return(
+            f"{self.user.last_name}\n"
+        )
+#endregion
+
+>>>>>>> Stashed changes
 #region Course Model
 class Course(models.Model):
     code = models.CharField(max_length=20)
@@ -54,6 +63,17 @@ class Course(models.Model):
     professor = models.ForeignKey(Professor, on_delete=models.CASCADE)
 #endregion
 
+<<<<<<< Updated upstream
+=======
+    def __str__(self):
+        return (
+            f"Course:       {self.description}:{self.code}-\n\t" + Professor.print_userfriendly(self.professor)          
+        )
+
+    
+#endregion
+
+>>>>>>> Stashed changes
 #region Project Model
 class Project(models.Model):
     title = models.CharField(max_length=20)
@@ -63,6 +83,18 @@ class Project(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 #endregion
 
+<<<<<<< Updated upstream
+=======
+    def __str__(self):
+        return (
+            f"\ntitle:          {self.title}\n"
+            f"description:       {self.description}\n"
+            f"course: {self.course}\n"
+        )
+
+#endregion
+
+>>>>>>> Stashed changes
 #region Section Model
 class Section(models.Model):
     section_code = models.CharField(max_length=20)

@@ -2,7 +2,16 @@ from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Row, Column
 from django.http import HttpResponse, HttpResponseRedirect
+<<<<<<< Updated upstream
+=======
+from os import path
+>>>>>>> Stashed changes
 from .models import *
+
+class customMultipleChoiceField(forms.ModelMultipleChoiceField):
+    def instance_label(self, course):
+        return "%s" % course.code
+
 
 class ProfessorForm(forms.ModelForm):
     profile_icon = forms.FileField(
@@ -132,6 +141,7 @@ class CreateProjectForm(forms.ModelForm):
         })              
     
     )
+<<<<<<< Updated upstream
 
     course = forms.CharField(
        label='Associated Course',
@@ -141,6 +151,17 @@ class CreateProjectForm(forms.ModelForm):
        })              
     
     )    
+=======
+    course = forms.ModelChoiceField(
+        label='Course',
+        queryset=None,
+        required = True     
+    )
+
+            
+    
+
+>>>>>>> Stashed changes
 
     class Meta:
         model = Project
@@ -149,7 +170,14 @@ class CreateProjectForm(forms.ModelForm):
         ]
 
     def __init__(self, *args, **kwargs):
+<<<<<<< Updated upstream
         super().__init__(*args, **kwargs)
+=======
+        self.request = kwargs.pop('request')        
+        super().__init__(*args, **kwargs)
+        professor = Professor.objects.get(user=self.request.user)        
+        self.fields['course'].queryset = Course.objects.filter(professor=professor)        
+>>>>>>> Stashed changes
         self.helper = FormHelper()
         self.helper.form_class='form-horizontal'
         self.helper.label_class='col-25 fs-400 ff-sans-normal'
@@ -173,6 +201,10 @@ class CreateProjectForm(forms.ModelForm):
             ),                          
         )
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 class CreateSectionForm(forms.ModelForm):
     section_code = forms.CharField(
         label='Section Code',
