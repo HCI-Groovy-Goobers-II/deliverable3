@@ -3,5 +3,49 @@
 {% block page_title %}About{% endblock page_title %}
 
 {% block content %}
+{% if 'goto_section' %}
+<script> window.location.hash = '#{{ goto_section }}'; </script>
+{% endif %}
 
+<div class="lightly-pad-container bg-brand-blue text-white text-break">
+    <div class="center">
+        You won't notice a difference whether you click Find out more
+        under students or professors on the home page. But shrink down
+        to mobile screen size and these columns stack. Then the IDs
+        "professors" and "students" are used to scroll to that part of the page.
+    </div>
+</div>
+
+<div class="flow container">
+    <div class="row card-row">
+        <div class="col-sm card-thin-border" id="professors">
+            <h3 class="text-center">Professors</h3>
+            <p class="card-text">
+                Put some pretty screenshots and shit. Just make it look
+                efficient and pretty.
+
+                Images can go in img/about folder
+
+                To access my S3 bucket, press (Ctrl + shift + p) > Install extensions
+                > AWS Toolkit.
+                <br><br>
+                Because of the AWS environment variables you already set, it should
+                probably just authenticate you already. If not, add AWS_DEFAULT_REGION
+                with the value us-east-1 into your system variables. It also will fail
+                if your system clock is not on the proper EST.
+
+                {% load static %}
+                <img src="{% static 'img/about/goobers-bucket.png' %}" width="60%">
+            </p>
+        </div>
+        <div class="col-xs"><p>&emsp;&emsp;</p></div>
+        <div class="col-sm card-thin-border" id="students">
+            <h3 class="text-center">Students</h3>
+            <p class="card-text">
+                Put some pretty screenshots and shit. Just make it look
+                efficient and pretty.
+            </p>
+        </div>
+    </div>
+</div>
 {% endblock content %}

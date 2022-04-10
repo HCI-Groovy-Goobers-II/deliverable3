@@ -2,11 +2,54 @@
 
 {% block page_title %}Home{% endblock page_title %}
 
+{% load static %}
+{% block cw_style %}
+style="background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.5)), url('{% static 'img/home/teamwork.jpg' %}');"
+{% endblock cw_style %}
+
 {% block content %}
-<h1 class="text-center">You've reached the home page</h1>
-{% if user.is_authenticated %}
-<p class="text-center">
-    Welcome {{ user.first_name }}!
-</p>
-{% endif %}
+<div class="lightly-pad-container bg-brand-blue text-white text-break">
+    <h1 class="ff-sans-bolder text-center textshadow">Welcome to ProjectConnect!</h1>
+</div>
+
+<div class="flow container">
+    <div class="row card-row">
+        <div class="col-sm card">
+            <h3 class="text-center">For Students</h3>
+            <p class="card-text">
+                Picking the right collaborators for a project can feel like a shot in
+                the dark, especially if you haven't met many of your peers. You need to
+                know who's responsible, who communicates well, or who can lead effectively.
+                ProjectConnect aims at taking the guesswork out of choosing your teammates
+                by showing you ratings of other students in your college and in your classes.
+                <br><br>
+                Ratings are based off of peer evaluations from past projects, so as more
+                projects are completed, you get a better idea of your peers' strengths and
+                weaknesses. All of this makes it easier on you, the student, to find others
+                who can be a good fit on your next team.
+                <br><br>
+                <a href="{% url 'public_pages:about' %}#students"><button class="bttn-brand-blue" style="width: 100%;">Find out more</button></a>
+            </p>
+        </div>
+        <div class="col-xs"><p>&emsp;&emsp;</p></div>
+        <div class="col-sm card">
+            <h3 class="text-center">For Professors</h3>
+            <p class="card-text">
+                Class project grades often depend in part on peer evaluations. Creating,
+                distributing, and keeping track of all the evaluations your students
+                complete across courses and sections can be a headache. ProjectConnect
+                streamlines the your ability to distribute and track peer evaluations.
+                You can set them to be sent to your students on a per-project basis at
+                a precise time and view who has completed them in each class.
+                <br><br>
+                What's more? For class settings where the professor assigns teams,
+                ProjectConnect offers a great way to get insight into which students
+                will work well together, what problems students are having with their
+                peers, and moderate students' evaluations.
+                <br><br>
+                <a href="{% url 'public_pages:about' %}#professors"><button class="bttn-brand-blue" style="width: 100%;">Find out more</button></a>
+            </p>
+        </div>
+    </div>
+</div>
 {% endblock content %}
