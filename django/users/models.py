@@ -4,6 +4,7 @@ from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.models import Group
 from django.db import models
 
+#region EmailAuthUserManager
 class EmailAuthUserManager(BaseUserManager):
     def create_user(self, email, password=None):
         if not email:
@@ -26,7 +27,9 @@ class EmailAuthUserManager(BaseUserManager):
         user.is_superuser = True
         user.save(using=self._db)
         return user
+#endregion
 
+#region Email AuthUser
 class EmailAuthUser(AbstractBaseUser, PermissionsMixin):
     """Model for users to authenticate with email"""
     first_name   = models.CharField(max_length=60)
@@ -56,3 +59,5 @@ class EmailAuthUser(AbstractBaseUser, PermissionsMixin):
 
     def has_module_perms(self, app_label: str) -> bool:
         return super().has_module_perms(app_label)
+
+#endregion

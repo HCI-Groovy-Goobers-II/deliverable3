@@ -1,10 +1,115 @@
 {% extends './base.html' %}
 
-{% block page_title %}Home{% endblock page_title %}
+{% block page_title %}Index{% endblock page_title %}
+
+{% block more_links %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+{% endblock more_links %}
 
 {% block content %}
-<h1 class="text-center">You've reached the professors home page</h1>
-<p class="text-center">
-    Welcome {{ user.first_name }}!
-</p>
+{% load crispy_forms_tags %}
+                <div class="container flow">
+                    <div class="row card-row">
+                        <div class="col-sm card-thin-border bg-white" style="height: 450px; overflow-y: scroll;">
+                            <div class="lightly-pad-container bg-brand-blue text-white text-break" style="margin-bottom: 1rem;">
+                                <h3 class="ff-sans-bolder text-center text-white textshadow">My Classes</h3>
+                                 <center><a href="{% url 'professors:create_course' %}"><button>Create Class</button></a> | 
+                                 <a href="{% url 'professors:create_section' %}"><button>Create Section</button></a></center>
+                            </div>
+                            {% for course in courses %}
+                            <div class="lightly-pad-container bg-white shadow" style="word-wrap: normal;">
+                                <h4 class="ff-sans-bolder">{{ course.description }}</h4>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm ff-sans-bolder">{{ course.code}}</div>
+                                    <span class="col-sm">
+                                        <a href="#">Projects</a>&emsp;&emsp;
+                                        <a href="#">Students</a>
+                                    </span>
+                                </div>
+                                <hr>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="col-xs"><p>&emsp;&emsp;</p></div>
+
+                        <div class="col-sm card-thin-border bg-white" style="height: 450px; overflow-y: scroll;">
+                            <div class="lightly-pad-container bg-brand-blue text-white text-break" style="margin-bottom: 1rem;">
+                                <h3 class="ff-sans-bolder text-center text-white textshadow">My Projects</h3>
+                                <center><a href="{% url 'professors:create_project' %}"><button>Create Project</button></a></center>
+                            </div>
+
+                            <div class="lightly-pad-container bg-white shadow" style="word-wrap: normal;">
+                                <h4 class="ff-sans-bolder">HCI Project - CSCI 4927, 5927</h4>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm ff-sans-bolder">201 (Undergraduate)</div>
+                                    <span class="col-sm">
+                                        <a href="#">Evaluations</a>&emsp;&emsp;
+                                        <a href="#">Students</a>
+                                    </span>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm ff-sans-bolder">901 (Undergraduate)</div>
+                                    <span class="col-sm">
+                                        <a href="#">Evaluations</a>&emsp;&emsp;
+                                        <a href="#">Students</a>
+                                    </span>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm ff-sans-bolder">201 (Graduate)</div>
+                                    <span class="col-sm">
+                                        <a href="#">Evaluations</a>&emsp;&emsp;
+                                        <a href="#">Students</a>
+                                    </span>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm ff-sans-bolder">901 (Graduate)</div>
+                                    <span class="col-sm">
+                                        <a href="#">Evaluations</a>&emsp;&emsp;
+                                        <a href="#">Students</a>
+                                    </span>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="lightly-pad-container bg-white shadow" style="word-wrap: normal;">
+                                <h4 class="ff-sans-bolder">Some Other Project - CSCI 4927, 5927</h4>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm ff-sans-bolder">201 (Undergraduate)</div>
+                                    <span class="col-sm">
+                                        <a href="#">Evaluations</a>&emsp;&emsp;
+                                        <a href="#">Students</a>
+                                    </span>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm ff-sans-bolder">901 (Undergraduate)</div>
+                                    <span class="col-sm">
+                                        <a href="#">Evaluations</a>&emsp;&emsp;
+                                        <a href="#">Students</a>
+                                    </span>
+                                </div>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm ff-sans-bolder">201 (Graduate)</div>
+                                    <span class="col-sm">
+                                        <a href="#">Evaluations</a>&emsp;&emsp;
+                                        <a href="#">Students</a>
+                                    </span>
+                                </div>
+                                <hr>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+</body>
 {% endblock content %}
