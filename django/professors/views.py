@@ -10,20 +10,19 @@ from datetime import datetime as dt, timedelta
 from os import path
 
 
-
-#region Index Request Return
 @login_required
 @allowed_users(allowed_groups=['professors'])
 def index(request):
+    professor = Professor.objects.get(user=request.user)
+    course = Course.objects.all()
     context = {
-
+        'course' : course,
+        'courses' : Course.objects.filter(professor=professor),
 
     }
     return render(request, 'professors/index.html', context)
-#endregion
 
 
-#region Debug Request Return
 @login_required
 @allowed_users(allowed_groups=['professors'])
 def debug(request):
@@ -41,13 +40,8 @@ def debug(request):
 
     }
     return render(request, 'professors/debug.html', context)
-#endregion
 
 
-
-#region Form Views
-
-#region edit_profile (Edit a Professor's profile)
 @login_required
 @allowed_users(allowed_groups=['professors'])
 def edit_profile(request):
@@ -73,11 +67,8 @@ def edit_profile(request):
 
     context = { 'professor': professor, 'form': form }
     return render(request, 'professors/edit_profile_form.html', context)
-#endregion
 
 
-
-#region create_course (Form to create a course)
 @login_required
 @allowed_users(allowed_groups=['professors'])
 def create_course(request): 
@@ -98,9 +89,8 @@ def create_course(request):
 
     context = { 'form': form }
     return render(request, 'professors/create_course_form.html', context)
-#endregion
 
-#region create_project (Form to create a project)
+
 @login_required
 @allowed_users(allowed_groups=['professors'])
 def create_project(request):
@@ -118,9 +108,8 @@ def create_project(request):
 
     context = { 'form': form }
     return render(request, 'professors/create_project_form.html', context)
-#endregion
 
-#region create_section (Form to create a section)
+
 @login_required
 @allowed_users(allowed_groups=['professors'])
 def create_section(request):
@@ -137,19 +126,6 @@ def create_section(request):
 
     context = { 'form': form }
     return render(request, 'professors/create_section_form.html', context)
-#endregion
-
-@login_required
-@allowed_users(allowed_groups=['professors'])
-def index(request):
-    professor = Professor.objects.get(user=request.user)
-    course = Course.objects.all()
-    context = {
-        'course' : course,
-        'courses' : Course.objects.filter(professor=professor),
-
-    }
-    return render(request, 'professors/index.html', context)
 
 
 
