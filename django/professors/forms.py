@@ -63,6 +63,7 @@ class ProfessorForm(forms.ModelForm):
         self.helper.field_class='col-75'
         self.helper.form_tag = False
 
+
 class CreateCourseForm(forms.ModelForm):
     code = forms.CharField(
         label='Class code',
@@ -80,8 +81,6 @@ class CreateCourseForm(forms.ModelForm):
         })    
     )
     
-
-
     class Meta:
         model = Course
         fields = [
@@ -103,6 +102,7 @@ class CreateCourseForm(forms.ModelForm):
                 Column('description')
             ),
         )
+
 
 class CreateProjectForm(forms.ModelForm):
     title = forms.CharField(
@@ -143,10 +143,6 @@ class CreateProjectForm(forms.ModelForm):
         queryset=None,
         required = True     
     )
-
-            
-    
-
 
     class Meta:
         model = Project

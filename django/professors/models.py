@@ -8,7 +8,6 @@ from students.models import Student
 from functools import partial
 from os import path
 
-#region _update and _upload functions from https://newbedev.com/how-to-change-the-file-name-of-an-uploaded-file-in-django
 
 def _update_filename(instance, filename, path):
     return path.join(path, filename)
@@ -16,15 +15,16 @@ def _update_filename(instance, filename, path):
 def upload_to(path):
     return partial(_update_filename, path=path)
 
+
 class S3Upload(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
+
 
 class S3ProfessorUpload(S3Upload):
     _upload_to='img/professors/profile_icons'
     file = models.FileField(upload_to=(_upload_to))
-#endregion
 
-#region Professor Model
+
 class Professor(models.Model):
     title        = models.CharField(max_length=100)
     pronouns     = models.CharField(max_length=100)
@@ -50,9 +50,8 @@ class Professor(models.Model):
         return(
             f"{self.user.last_name}\n"
         )
-#endregion
 
-#region Course Model
+
 class Course(models.Model):
     code = models.CharField(max_length=20)
     description = models.CharField(max_length=200)
@@ -63,10 +62,7 @@ class Course(models.Model):
             f"Course:       {self.description}:{self.code}-\n\t" + Professor.print_userfriendly(self.professor)          
         )
 
-    
-#endregion
 
-#region Project Model
 class Project(models.Model):
     title = models.CharField(max_length=20)
     description = models.CharField(max_length=200)
@@ -81,16 +77,13 @@ class Project(models.Model):
             f"course: {self.course}\n"
         )
 
-#endregion
 
-#region Section Model
 class Section(models.Model):
     section_code = models.CharField(max_length=20)
     description = models.CharField(max_length=200)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     projects = models.ManyToManyField(Project)
     students = models.ManyToManyField(Student) 
-#endregion
 
     
         

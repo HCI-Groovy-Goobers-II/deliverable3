@@ -2,9 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render
-from professors.forms import ProfessorForm, CreateCourseForm, CreateProjectForm, CreateSectionForm
+from professors.forms import *
 from users.decorators import allowed_users
-from professors.models import Professor, Course, Project, Section, S3ProfessorUpload
+from professors.models import *
 from students.models import Student
 from datetime import datetime as dt, timedelta
 from os import path
@@ -14,11 +14,17 @@ from os import path
 @allowed_users(allowed_groups=['professors'])
 def index(request):
     professor = Professor.objects.get(user=request.user)
-    course = Course.objects.all()
-    context = {
-        'course' : course,
-        'courses' : Course.objects.filter(professor=professor),
+    courses = Course.objects.filter(professor=professor)
+    sections = set()
+    projects = set()
+    for _, c in enumerate(courses):
+        projects = projects.union(Project.objects.filter(course=c))
+        sections = sections.union(Section.objects.filter(course=c))
 
+    context = {
+        'courses' : Course.objects.filter(professor=professor),
+        'sections': sections,
+        'projects': projects
     }
     return render(request, 'professors/index.html', context)
 
@@ -31,13 +37,10 @@ def debug(request):
     sections = Section.objects.all()
     students = Student.objects.all()
     context = {
-
         'courses': courses,
         'projects': projects,
         'sections': sections,
         'students': students
-
-
     }
     return render(request, 'professors/debug.html', context)
 
@@ -46,10 +49,8 @@ def debug(request):
 @allowed_users(allowed_groups=['professors'])
 def edit_profile(request):
     professor = Professor.objects.get(user=request.user) 
-
     if request.method != 'POST': 
-        form = ProfessorForm(instance=professor) 
-                                                
+        form = ProfessorForm(instance=professor)
     else:                                       
         form = ProfessorForm(instance=professor, data=request.POST) 
         if form.is_valid():
