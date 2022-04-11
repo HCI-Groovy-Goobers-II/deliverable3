@@ -37,8 +37,8 @@ class Student(models.Model):
     grade_level = models.CharField(max_length=9)
     major       = models.CharField(max_length=69)
     minor       = models.CharField(max_length=69)
-    avg_rating  = models.FloatField(default=0)
 
+    avg_rating  = models.FloatField(default=0)
     avg_participation     = models.FloatField(default=0)
     avg_contribution      = models.FloatField(default=0)
     avg_work_timeliness   = models.FloatField(default=0)
