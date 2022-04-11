@@ -55,8 +55,8 @@ class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
         fields = [
-            'profile_icon', 'title', 'pronouns',
-            'suffix', 'bio',
+            'profile_icon', 'pronouns',
+            'bio',
         ]
 
     def __init__(self, *args, **kwargs):
