@@ -35,23 +35,10 @@ class StudentForm(forms.ModelForm):
         required=True,
         widget=forms.Select(choices=SelectFieldChoices.GRADE_LEVEL_CHOICES)
     )
-   
-    title = forms.CharField(
-        label='Professional title',
-        required=True,
-    )
 
     pronouns = forms.CharField(
         label='Personal pronouns',
         required=False,
-    )
-
-    suffix = forms.CharField(
-        label='Your suffix',
-        required=False,
-        widget=forms.TextInput(attrs={
-            'placeholder': 'PhD, MD, PhD-MD, etc.'
-        })
     )
 
     bio = forms.CharField(
