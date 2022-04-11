@@ -80,28 +80,14 @@ class CreateCourseForm(forms.ModelForm):
             'placeholder': 'The description..',
         })    
     )
+
+    course_sections = forms.CharField()
     
     class Meta:
         model = Course
         fields = [
             'code','description','professor',
         ]
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.helper = FormHelper()
-        self.helper.form_class='form-horizontal'
-        self.helper.label_class='col-25 fs-400 ff-sans-normal'
-        self.helper.field_class='col-75'
-        self.helper.form_tag = False
-        self.helper.layout = Layout(
-            Row(
-                Column('code')
-            ),
-            Row(
-                Column('description')
-            ),
-        )
 
 
 class CreateProjectForm(forms.ModelForm):
@@ -141,7 +127,7 @@ class CreateProjectForm(forms.ModelForm):
     course = forms.ModelChoiceField(
         label='Course',
         queryset=None,
-        required = True     
+        required = True
     )
 
     class Meta:
@@ -153,8 +139,10 @@ class CreateProjectForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request')        
         super().__init__(*args, **kwargs)
+
         professor = Professor.objects.get(user=self.request.user)        
-        self.fields['course'].queryset = Course.objects.filter(professor=professor)        
+        self.fields['course'].queryset = Course.objects.filter(professor=professor)
+
         self.helper = FormHelper()
         self.helper.form_class='form-horizontal'
         self.helper.label_class='col-25 fs-400 ff-sans-normal'

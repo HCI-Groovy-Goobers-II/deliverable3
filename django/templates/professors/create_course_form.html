@@ -8,16 +8,55 @@
 {% endblock more_links %}
 
 {% block content %}
-{% load crispy_forms_tags %}
-
 <br>
 <div class="container-sm flow">
     <div class="lightly-pad-container shadow text-break text-center">
         <h2 class="ff-sans-bolder">Create a Course</h2>
         <div class="form-container">
             <br>
-            <form action="{% url 'professors:create_course' %}" method='post' enctype='multipart/form-data'>
-                {% crispy form %}
+            <form id="course-form" onsubmit="return saveSections();" action="{% url 'professors:create_course' %}" method='post' enctype='multipart/form-data'>
+                {% csrf_token %}
+                {{ form.professor.as_hidden }}
+                {{ form.course_sections.as_hidden }}
+                <div class="form-row">
+                    <div class="col-25">
+                        <label for="id_code">Course Code*</label>
+                    </div>
+                    <div class="col-75">
+                        {{ form.code }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-25">
+                        <label for="id_description">Description*</label>
+                    </div>
+                    <div class="col-75">
+                        {{ form.description }}
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-25">
+                        <div class="flow container">
+                            <button class="bttn-outline-brand-blue" id="add-section" type="button" onclick="addSection();" style="margin-bottom: 1rem;">Add a section</button>
+                        </div>
+                    </div>
+                    <div class="col-75">
+                        <ul id="sections" style="list-style: none;">
+                        </ul>
+                    </div>
+                    <br>
+                </div>
+                <div class="form-row">
+                    {% if form.errors %}
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                        {% endfor %}
+                    {% endfor %}
+                    {% endif %}
+                </div>
                 <div class="form-row">
                     <div class="col-25">
                         &nbsp;
@@ -29,7 +68,7 @@
                         </button>
                     </div>
                     <div class="col-25" style="text-align: left;">
-                        <button class="bttn-danger" onclick="javascript:window.location.replace('/professors')"
+                        <button class="bttn-danger" onclick="javascript:history.back();"
                             style="margin-top: 1em; padding-left: 10%; padding-right: 10%;">
                             Cancel
                         </button>
@@ -40,3 +79,39 @@
     </div>
 </div>
 {% endblock content %}
+
+{% block body_scripts %}
+<script>
+var i = 0;
+let sections = $('#sections');
+function addSection() {
+    let newSection = $(
+        `<li id="section-${i}" style="margin-bottom: 1.2rem;">
+            <input id="section-${i}-input" class="col-75" placeholder="Section code here" title="Type new section name here"></input>
+            <a title="Remove this section" class="bttn-danger text-white ff-sans-bolder fs-400" type="button" onclick="removeSection('section-${i}');">X</a>
+        </li>`
+    );
+    sections.append(newSection);
+    i += 1;
+}
+
+function removeSection(sectionID) {
+    let sectionsArr = Array.from(document.getElementById('sections').children);
+    let child = document.getElementById(sectionID);
+    let pos = sectionsArr.indexOf(child);
+    sections.children('li')[pos].remove();
+    i -= 1; // Decrement counter
+}
+
+function saveSections() {
+    let sections = document.getElementById('sections').children;
+    let sections_arr = [];
+    for (let x = 0; x < sections.length; x++) {
+        sections_arr.push(document.getElementById(`section-${x}-input`).value);
+    }
+    let sectionsStr = sections_arr.join('|');
+    document.getElementById('id_course_sections').value = sectionsStr;
+    return true;
+}
+</script>
+{% endblock body_scripts %}

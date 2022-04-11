@@ -7,6 +7,7 @@ from users.decorators import allowed_users
 from professors.models import *
 from students.models import Student
 from datetime import datetime as dt, timedelta
+from django.contrib import messages
 from os import path
 
 
@@ -78,15 +79,23 @@ def create_course(request):
 
     if request.method != 'POST':  
         form = CreateCourseForm(instance=course)  #Create the form instance of the course
-        instance=course # ?
-                                               
-    else:                                       
+    else:
+        print("POST")
         form = CreateCourseForm(instance=course, data=request.POST) #Create the form, instance of the course with a DR post 
         if form.is_valid():
             form.save() #If the form is valid, save it.
-        course.save()
-
-        return HttpResponseRedirect(reverse('professors:index')) #Return to the index
+            sections_str = request.POST['course_sections'].split('|')
+            for sc in sections_str: # Build the sections
+                section = Section(
+                    section_code=sc,
+                    description='',
+                    course=course
+                )
+                section.save()
+            return HttpResponseRedirect(reverse('professors:index')) #Return to the index
+        else:
+            if request.POST['course_sections'] == '':
+                form.add_error('course_sections', 'You must create at least one section');
 
     context = { 'form': form }
     return render(request, 'professors/create_course_form.html', context)
@@ -96,6 +105,11 @@ def create_course(request):
 @allowed_users(allowed_groups=['professors'])
 def create_project(request):
     project = Project()
+    courses = Course.objects.filter(professor=Professor.objects.get(user=request.user))
+    #sections = set()
+    #for course in courses:
+    #    sections = sections.union(Section.objects.filter(course=course)) # Get all candidate sections
+
     if request.method != 'POST':
         form = CreateProjectForm(instance=project, request=request) 
 
@@ -116,8 +130,7 @@ def create_project(request):
 def create_section(request):
     section = Section()
     if request.method != 'POST':
-        form = CreateSectionForm(instance=section, request=request)
-
+        form = CreateSectionForm(instance=section)
     else:                                       
         form = CreateSectionForm(request=request, data=request.POST) 
         if form.is_valid():
@@ -125,7 +138,10 @@ def create_section(request):
              
         return HttpResponseRedirect(reverse('professors:index'))
 
-    context = { 'form': form }
+    context = {
+        'form': form,
+        'dont_display': True
+    }
     return render(request, 'professors/create_section_form.html', context)
 
 

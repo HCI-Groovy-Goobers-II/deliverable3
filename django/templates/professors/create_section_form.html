@@ -9,7 +9,7 @@
 
 {% block content %}
 {% load crispy_forms_tags %}
-
+{% if not dont_display %}
 <br>
 <div class="container-sm flow">
     <div class="lightly-pad-container shadow text-break text-center">
@@ -44,4 +44,12 @@
         </div>
     </div>
 </div>
+{% else %}
+<div class="container center pad-container mt-5">
+    <div class="fs-600 center pad-container m-auto">
+        Sorry, this feature is still under development.
+        We will finish it soon.
+    </div>
+</div>
+{% endif %}
 {% endblock content %}
