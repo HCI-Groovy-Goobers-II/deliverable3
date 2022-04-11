@@ -1,0 +1,70 @@
+{% extends './base.html' %}
+
+{% block page_title %}Edit Student Profile{% endblock page_title %}
+
+{% block more_links %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+{% endblock more_links %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+<br>
+<div class="container-sm flow">
+    <div class="lightly-pad-container shadow text-break text-center">
+        <h2 class="ff-sans-bolder">Edit Student Profile</h2>
+        <div class="form-container">
+            <div class="row">
+                <div class="col-25"></div>
+                <div class="col-75">
+                    <div class="col-25">
+                    </div>
+                    {% with 'img/students/profile_icons/'|add:student.profile_icon_file_name as profile_icon_static %}
+                    <img id="profile-icon" width="150" src="{% static profile_icon_static %}" alt="Student's profile icon" style="border-radius: 50%;">
+                    {% endwith %}
+                </div>
+            </div>
+            <br>
+            <form action="{% url 'students:edit_profile' %}" method='post' enctype='multipart/form-data'>
+                {% crispy form %}
+                <div class="form-row">
+                    <div class="col-25">
+                        &nbsp;
+                    </div>
+                    <div class="col-25" style="text-align: left;">
+                        <button class="bttn-brand-blue" type="submit"
+                            style="margin-top: 1em; padding-left: 10%; padding-right: 10%;">
+                            Save
+                        </button>
+                    </div>
+                    <div class="col-25" style="text-align: left;">
+                        <button class="bttn-danger" onclick="javascript:window.location.replace('/students')"
+                            style="margin-top: 1em; padding-left: 10%; padding-right: 10%;">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block body_scripts %}
+<script>
+    $("#id_profile_icon").on("change", function() {
+        let input = this;
+        let filename = $(this).val();
+        let ext = filename.substring(filename.lastIndexOf('.') + 1).toLowerCase();
+        if (input.files && input.files[0] && (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg"))
+        {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#profile-icon').attr('src', e.target.result);
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    });
+</script>
+{% endblock body_scripts %}
