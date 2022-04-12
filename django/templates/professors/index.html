@@ -8,36 +8,29 @@
 {% endblock more_links %}
 
 {% block content %}
-{% load crispy_forms_tags %}
+{% load professors_filters %}
 <div class="container flow">
     <div class="row card-row">
         <div class="col-sm card-thin-border bg-white" style="height: 450px; overflow-x: hidden; overflow-y: scroll;">
             <div class="lightly-pad-container bg-brand-blue text-white text-break" style="margin-bottom: 1rem;">
                 <h3 class="ff-sans-bolder text-center text-white textshadow">My Courses</h3>
-                <div class="container pt-3 pb-3 bg-white">
-                    <div class="row bg-white">
-                        <div class="col text-center">
-                            <a href="{% url 'professors:create_course' %}"><button class="bttn-brand-blue">Create Course</button></a>
-                        </div>
-                        <div class="col-xs">&emsp;</div>
-                        <div class="col text-center">
-                            <a href="{% url 'professors:create_section' %}"><button class="bttn-brand-blue">Create Section</button></a>
-                        </div>
-                    </div>
-                </div>
             </div>
             {% for course in courses %}
             <div class="lightly-pad-container bg-white shadow" style="word-wrap: normal;">
                 <h4 class="ff-sans-bolder">{{ course.description }}</h4>
+                <div class="ff-sans-bolder fs-400">({{ course.code}})</div>
                 <hr>
+                {% sections_by_course course as sections %}
+                {% for section in sections %}
                 <div class="row">
-                    <div class="col-sm ff-sans-bolder">{{ course.code}}</div>
+                    <div class="col-sm ff-sans-bolder">{{ section.section_code }}</div>
                     <span class="col-sm">
                         <a href="#">Projects</a>&emsp;&emsp;
                         <a href="#">Students</a>
                     </span>
                 </div>
                 <hr>
+                {% endfor %}
             </div>
             {% endfor %}
         </div>
@@ -47,20 +40,13 @@
         <div class="col-sm card-thin-border bg-white" style="height: 450px; overflow-x: hidden; overflow-y: scroll;">
             <div class="lightly-pad-container bg-brand-blue text-white text-break" style="margin-bottom: 1rem;">
                 <h3 class="ff-sans-bolder text-center text-white textshadow">My Projects</h3>
-                <div class="container pt-3 pb-3 bg-white">
-                    <div class="row bg-white">
-                        <div class="col text-center">
-                            <a href="{% url 'professors:create_project' %}"><button class="bttn-brand-blue">Create Project</button></a>
-                        </div>
-                    </div>
-                </div>
             </div>
-            <div class="lightly-pad-container bg-white shadow" style="word-wrap: normal;">
-                {% for course in courses %}
+            {% for course in courses %}
+            <div class="lightly-pad-container bg-white mb-3" style="word-wrap: normal;">
+                {% projects_by_course course as projects %}
                 {% for project in projects %}
-                {% if project.course == course %}
-                {% for section in project.section_set.all %}
-                <h4 class="ff-sans-bolder">{{ project.title }} - {{ course.code }}</h4>
+                <h4 class="ff-sans-bolder mt-3 mb-3">{{ project.title }} - {{ course.code }}</h4>
+                {% for section in course.section_set.all %}
                 <hr>
                 <div class="row">
                     <div class="col-sm ff-sans-bolder">{{ section.section_code }}</div>
@@ -69,12 +55,11 @@
                         <a href="#">Students</a>
                     </span>
                 </div>
+                <br>
                 {% endfor %}
-                {% endif %}
                 {% endfor %}
-                {% endfor %}
-                <hr>
             </div>
+            {% endfor %}
         </div>
     </div>
 </div>

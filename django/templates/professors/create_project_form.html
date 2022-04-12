@@ -1,6 +1,6 @@
 {% extends './base.html' %}
 
-{% block page_title %}Create a Course{% endblock page_title %}
+{% block page_title %}Create a Project{% endblock page_title %}
 
 {% block more_links %}
 {% load static %}
@@ -9,16 +9,11 @@
 
 {% block content %}
 {% load crispy_forms_tags %}
-
-
 <br>
 <div class="container-sm flow">
     <div class="lightly-pad-container shadow text-break text-center">
         <h2 class="ff-sans-bolder">Create a Project</h2>
         <div class="form-container">
-            <form>
-            </form>         
-            <br>
             <form action="{% url 'professors:create_project' %}" method='post' enctype='multipart/form-data'>
                 {% crispy form %}
                 <div class="form-row">

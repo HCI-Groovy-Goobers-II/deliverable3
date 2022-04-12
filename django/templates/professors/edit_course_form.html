@@ -1,6 +1,6 @@
 {% extends './base.html' %}
 
-{% block page_title %}Create a Course{% endblock page_title %}
+{% block page_title %}Edit Course{% endblock page_title %}
 
 {% block more_links %}
 {% load static %}
@@ -11,13 +11,15 @@
 <br>
 <div class="container-sm flow">
     <div class="lightly-pad-container shadow text-break text-center">
-        <h2 class="ff-sans-bolder">Create a Course</h2>
+        <h2 class="ff-sans-bolder">Edit Course</h2>
         <div class="form-container">
             <br>
-            <form id="course-form" onsubmit="return saveSections();" action="{% url 'professors:create_course' %}" method='post' enctype='multipart/form-data'>
+            <form id="course-form" onsubmit="return saveSections();" action="{% url 'professors:edit_course' course.id %}" method='post' enctype='multipart/form-data'>
                 {% csrf_token %}
-                {{ form.professor.as_hidden }}
                 {{ form.course_sections.as_hidden }}
+                {{ form.created_course_sections.as_hidden }}
+                {{ form.course_sections_to_delete.as_hidden }}
+                {{ form.created_course_section_ids.as_hidden }}
                 <div class="form-row">
                     <div class="col-25">
                         <label for="id_code">Course Code*</label>
@@ -68,7 +70,7 @@
                         </button>
                     </div>
                     <div class="col-25" style="text-align: left;">
-                        <button class="bttn-danger" onclick="javascript:history.back();"
+                        <button class="bttn-danger" onclick="javascript:window.location.replace('professors/courses_and_projects/');"
                             style="margin-top: 1em; padding-left: 10%; padding-right: 10%;">
                             Cancel
                         </button>
@@ -83,7 +85,9 @@
 {% block body_scripts %}
 <script>
 var i = 0;
+var sectionsToDelete = [];
 let sections = $('#sections');
+
 function addSection() {
     let newSection = $(
         `<li id="section-${i}" style="margin-bottom: 1.2rem;">
@@ -93,25 +97,56 @@ function addSection() {
     );
     sections.append(newSection);
     i += 1;
+    return "section-" + (i-1).toString() + '-input';
 }
 
 function removeSection(sectionID) {
     let sectionsArr = Array.from(document.getElementById('sections').children);
     let child = document.getElementById(sectionID);
     let pos = sectionsArr.indexOf(child);
-    sections.children('li')[pos].remove();
+    let section = sections.children('li')[pos];
+    let input = section.children[0];
+    if (input.classList.contains("createdCourseSection")) {
+        let lastClass = input.className.split(' ').pop();
+        let id = lastClass.split('--')[1];
+        sectionsToDelete.push(id);
+    }
+    section.remove();
     i -= 1; // Decrement counter
 }
 
 function saveSections() {
-    let sections = document.getElementById('sections').children;
     let sections_arr = [];
-    for (let x = 0; x < sections.length; x++) {
-        sections_arr.push(document.getElementById(`section-${x}-input`).value);
+    for (let x = 0; x < i; x++) {
+        let section = document.getElementById("section-" + x + "-input");
+        if (! section.classList.contains("createdCourseSection")) {
+            sections_arr.push(section.value);
+        }
     }
-    let sectionsStr = sections_arr.join(';');
+    let sectionsStr = sections_arr.join(';').trim();
+    let sectionsToDelStr = sectionsToDelete.join(';').trim(';');
     document.getElementById('id_course_sections').value = sectionsStr;
+    document.getElementById('id_course_sections_to_delete').value = sectionsToDelStr;
     return true;
 }
+
+// Populate the courses already saved.
+$(document).ready(function() {
+    let createdCourseSections = '{{ created_course_sections }}';
+    let createdCourseSectionIDs = '{{ created_course_section_ids }}';
+
+    let createdSections_arr = createdCourseSections.split(';')
+    let createdSectionIDs_arr = createdCourseSectionIDs.split(';')
+    let x = 0;
+    createdSections_arr.forEach(text => {
+        let sectionID = addSection();
+        let input = document.getElementById(sectionID)
+        input.value = text;
+        input.classList.add("createdCourseSection");
+        input.classList.add("createdCourseSectionID--" + createdSectionIDs_arr[x]);
+        x += 1;
+    });
+    removeSection("section-" + (x-1));
+});
 </script>
 {% endblock body_scripts %}
