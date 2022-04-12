@@ -60,8 +60,11 @@
                             <a class="student-name">{{ student.user.first_name }}  {{ student.user.last_name }}</a>
                         </p>
                         <p>
-                            🎓<a class="student-gradelevel">{{ student.grade_level }}</a>&nbsp;
+                            {% if not student.grade_level == '' %}
+                            🪜&nbsp;<a class="student-gradelevel">{{ student.grade_level }}</a>&nbsp;
+                            {% endif %}
                             {% if not student.major == '' %}
+                            🎓&nbsp;
                             <a class="student-major">{{ student.major }}</a>
                             {% endif %}
                             <br>

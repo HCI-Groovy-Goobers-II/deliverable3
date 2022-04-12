@@ -10,6 +10,7 @@ from students.models import Student
 from datetime import datetime as dt, timedelta
 from django.views.decorators.cache import never_cache
 from django.contrib import messages
+import json
 from os import path
 
 
@@ -87,6 +88,20 @@ def manage_courses_and_projects_tab(request, tab):
     context = {
         'courses': courses,
         'goto_tab': tab
+    }
+    return render(request, 'professors/manage_courses_and_projects.html', context)
+
+
+@login_required
+@allowed_users(allowed_groups=['professors'])
+def manage_courses_and_projects_tab_section(request, tab, section):
+    professor = Professor.objects.get(user=request.user)
+    courses = Course.objects.filter(professor=professor)
+
+    context = {
+        'courses': courses,
+        'goto_tab': tab,
+        'goto_section': section
     }
     return render(request, 'professors/manage_courses_and_projects.html', context)
 
@@ -172,6 +187,51 @@ def edit_course(request, course_id):
     }
 
     return render(request, 'professors/edit_course_form.html', context)
+
+@never_cache
+@login_required
+def add_students(request, institution_id, section_id, redirect_tab):
+    institution = Institution.objects.get(id=institution_id)
+    institution_students = Student.objects.filter(institution=institution)
+    section = Section.objects.get(id=section_id)
+    section_students = section.students.all()
+    section_students_ids = section_students._clone().values_list('id', flat=True)
+
+    if request.method == 'POST':
+        students = request.POST['add_students'].split(';')
+
+        for id_str in students:
+            id = int(id_str)
+            s = Student.objects.get(id=id)
+            if not id in section_students_ids:
+                try:
+                    section.students.add(s)
+                except Exception as e:
+                    print(e)
+
+        students = request.POST['remove_students'].split(';')
+
+        for id_str in students:
+            id = int(id_str)
+            s = Student.objects.get(id=id)
+            try:
+                section.students.remove(s)
+            except:
+                pass
+
+        return HttpResponseRedirect(reverse('professors:manage_courses_and_projects', args=[redirect_tab]))
+
+    context = {
+        'submit_url': f"/professors/add_students/{institution_id}/{section_id}/{redirect_tab}/",
+        'redirect_url': f"/professors/manage_courses_and_projects/{redirect_tab}/",
+        'institution_id': institution.id,
+        'section_id': section.id,
+        'redirect_tab': redirect_tab,
+        'students': institution_students,
+        'existing_students': section_students,
+    }
+
+    return render(request, 'professors/add_students_form.html', context)
 
 @never_cache
 @login_required

@@ -1,0 +1,331 @@
+{% extends './base.html' %}
+
+{% block title %}Assign students to Section{% endblock title %}
+
+{% block more_links %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+{% endblock more_links %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+{% load string_filters %}
+<br>
+<div class="container-sm flow">
+	<div class="container-lg p-5 shadow text-break border-dotted-brand-green">
+        <div class="row">
+            <div class="col-md">
+                <div class="text-center title"><h2>Assign Students to Course Section</h2></div>
+                <div class="form-container pb-lg-5" style="border: 2px dashed hsl( var(--clr-brand-blue) );">
+                    <ul id="selected-students" style="list-style: none; padding-bottom: 10px;">
+                        <a class="text-center" style="position: absolute; z-index: -1; color: #494949;">Selected students will display here</a>
+                        {% for student in students %}
+
+                        {% if student in existing_students %}
+                        {% with 'selectedstudents-'|addstr:student.id as student_id%}
+                        <li id="{{ student_id }}" style="position: relative; z-index: 1;">
+                            <div class="row bg-white border-brand-blue">
+                                <div class="col-sm">
+                                    {% with 'img/students/profile_icons/'|add:student.profile_icon_file_name as profile_icon_static %}
+                                    <img class="border-brand-blue" alt="{{ student.user.first_name }} {{ student.user.last_name }}'s profile" src="{% static profile_icon_static %}" style="border-radius: 50%;" width="40px">
+                                    {% endwith %}
+                                    <span class="fs-300 ff-sans-bolder student-name">{{ student.user.first_name }} {{ student.user.last_name }}</span>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="fs-300">
+                                        {% if not student.grade_level == '' %}
+                                        <a class="student-gradelevel">
+                                            🪜&nbsp;{{ student.grade_level }}
+                                        </a><br>
+                                        {% endif %}
+                                        {% if not student.major == '' %}
+                                        🎓&nbsp;
+                                        <a class="student-major ff-sans-bolder">{{ student.major }}</a>
+                                        {% endif %}
+                                        <br>
+                                    </p>
+                                    {% if not student.minor == '' %}
+                                    <p class="fs-200">
+                                        🤓<a class="student-minor">{{ student.minor }} Minor</a>
+                                    </p>
+                                    {% endif %}
+                                    <a class="student-rating">
+                                    {% if not student.avg_rating == 0 %}
+                                        {% if student.avg_rating < 2 %}
+                                        ★
+                                        {% elif student.avg_rating < 3 %}
+                                        ★★
+                                        {% elif student.avg_rating < 4 %}
+                                        ★★★
+                                        {% elif student.avg_rating < 5 %}
+                                        ★★★★
+                                        {% else %}
+                                        ★★★★★
+                                        {% endif %}
+                                    {% endif %}
+                                    </a>
+                                </div>
+                                <div class="col-sm center">
+                                    <a class="bttn-danger-sm" href="" onclick="deselectStudent('{{ student_id }}'); return false;">Deselect</a>
+                                </div>
+                            </div>
+                        </li>
+                        {% endwith %}
+                        {% endif %}
+
+                        {% endfor %}
+                    </ul>
+                    <div class="d-flex justify-content-center">
+                        <div class="col-xs">
+                            &nbsp;
+                        </div>
+                        <div class="col-25" style="text-align: left;">
+                            <button type="button" class="bttn-brand-blue" onclick="submitAddStudentsForm('{{ csrf_token }}');">Save</button>
+                        </div>
+                        <div class="col-25" style="text-align: left;">
+                            <button onclick="javascript:history.back();" class="bttn-danger">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+                <div class="form-container pl-1" id="student-search-list">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg>
+                    <span>
+                        <input type="text" class="search" placeholder="Name, grade level, rating" style="border-radius: 5px; vertical-align: middle; width: 300px; height: 2rem;">
+                    </span>
+                    <div class="fs-200 mt-3 mb-3" id="disp-block-when-small">
+                        <a style="margin-left: 14px;">
+                            <button class="sort btn btn-outline-primary" id="student-name-sort" data-sort="student-name">
+                                <i class="bi bi-sort-alpha-up" id="student-name-sort-icon"></i>
+                            </button>
+                            Sort A-Z
+                        </a>
+                    </div>
+
+                    <ul class="list" id="students-search">
+                        {% for student in students %}
+
+                        {% if not student in existing_students %}
+                        {% with 'searchstudents-'|addstr:student.id as student_id %}
+                        <li id="{{ student_id }}" style="position: relative; z-index: 1;">
+                            <div class="row bg-white border-brand-blue">
+                                <div class="col-sm">
+                                    {% with 'img/students/profile_icons/'|add:student.profile_icon_file_name as profile_icon_static %}
+                                    <img class="border-brand-blue" alt="{{ student.user.first_name }} {{ student.user.last_name }}'s profile" src="{% static profile_icon_static %}" style="border-radius: 50%;" width="40px">
+                                    {% endwith %}
+                                    <span class="fs-300 ff-sans-bolder student-name">{{ student.user.first_name }} {{ student.user.last_name }}</span>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="fs-300">
+                                        {% if not student.grade_level == '' %}
+                                        <a class="student-gradelevel">
+                                            🪜&nbsp;{{ student.grade_level }}
+                                        </a><br>
+                                        {% endif %}
+                                        {% if not student.major == '' %}
+                                        🎓&nbsp;
+                                        <a class="student-major ff-sans-bolder">{{ student.major }}</a>
+                                        {% endif %}
+                                        <br>
+                                    </p>
+                                    {% if not student.minor == '' %}
+                                    <p class="fs-200">
+                                        🤓<a class="student-minor">{{ student.minor }} Minor</a>
+                                    </p>
+                                    {% endif %}
+                                    <a class="student-rating">
+                                    {% if not student.avg_rating == 0 %}
+                                        {% if student.avg_rating < 2 %}
+                                        ★
+                                        {% elif student.avg_rating < 3 %}
+                                        ★★
+                                        {% elif student.avg_rating < 4 %}
+                                        ★★★
+                                        {% elif student.avg_rating < 5 %}
+                                        ★★★★
+                                        {% else %}
+                                        ★★★★★
+                                        {% endif %}
+                                    {% endif %}
+                                    </a>
+                                </div>
+                                <div class="col-sm center">
+                                    <a class="bttn-brand-blue" href="" onclick="selectStudent('{{ student_id }}'); return false;">Select</a>
+                                </div>
+                            </div>
+                        </li>
+                        {% endwith %}
+                        {% else %}
+                        {% with 'searchstudents-'|addstr:student.id as student_id %}
+                        <li id="{{ student_id }}" style="position: relative; z-index: 1;">
+                            <div class="row bg-white border-brand-blue">
+                                <div class="col-sm">
+                                    {% with 'img/students/profile_icons/'|add:student.profile_icon_file_name as profile_icon_static %}
+                                    <img class="border-brand-blue" alt="{{ student.user.first_name }} {{ student.user.last_name }}'s profile" src="{% static profile_icon_static %}" style="border-radius: 50%;" width="40px">
+                                    {% endwith %}
+                                    <span class="fs-300 ff-sans-bolder student-name">{{ student.user.first_name }} {{ student.user.last_name }}</span>
+                                </div>
+                                <div class="col-lg">
+                                    <p class="fs-300">
+                                        {% if not student.grade_level == '' %}
+                                        <a class="student-gradelevel">
+                                            🪜&nbsp;{{ student.grade_level }}
+                                        </a><br>
+                                        {% endif %}
+                                        {% if not student.major == '' %}
+                                        🎓&nbsp;
+                                        <a class="student-major ff-sans-bolder">{{ student.major }}</a>
+                                        {% endif %}
+                                        <br>
+                                    </p>
+                                    {% if not student.minor == '' %}
+                                    <p class="fs-200">
+                                        🤓<a class="student-minor">{{ student.minor }} Minor</a>
+                                    </p>
+                                    {% endif %}
+                                    <a class="student-rating">
+                                    {% if not student.avg_rating == 0 %}
+                                        {% if student.avg_rating < 2 %}
+                                        ★
+                                        {% elif student.avg_rating < 3 %}
+                                        ★★
+                                        {% elif student.avg_rating < 4 %}
+                                        ★★★
+                                        {% elif student.avg_rating < 5 %}
+                                        ★★★★
+                                        {% else %}
+                                        ★★★★★
+                                        {% endif %}
+                                    {% endif %}
+                                    </a>
+                                </div>
+                                <div class="col-sm center">
+                                    <a class="bttn-brand-outline-blue">Selected</a>
+                                </div>
+                            </div>
+                        </li>
+                        {% endwith %}
+                        {% endif %}
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+	</div>
+</div>
+{% endblock content %}
+{% block body_scripts %}
+<script src="{% static 'js/list.js' %}"></script>
+<script src="{% static 'js/student-search.js' %}"></script>
+<script>
+    let selStudentsList = document.getElementById('selected-students');
+    let delStudentsArr = [];
+
+    function selectStudent(studentID) {
+        let searchStudent = document.getElementById(studentID);
+        let selectStudent = searchStudent.cloneNode(true);
+
+        let student_Id = studentID.split('-')[1];
+        if (delStudentsArr.includes(student_Id)) {
+            delStudentsArr.splice(delStudentsArr.indexOf(student_Id), 1);
+        }
+        selectStudent.id = 'selectedstudents-' + student_Id;
+
+        let addLink = searchStudent.getElementsByClassName('bttn-brand-blue')[0];
+        addLink.classList.remove('bttn-brand-blue');
+        addLink.classList.add('bttn-brand-outline-blue');
+        addLink.innerHTML = 'Selected';
+        addLink.removeAttribute('onclick');
+        addLink.removeAttribute('href');
+
+        selectStudent.onClick = 'deselectStudent()';
+        let removeLink = selectStudent.getElementsByClassName('bttn-brand-blue')[0];
+        removeLink.classList.remove('bttn-brand-blue');
+        removeLink.classList.add('bttn-danger-sm');
+        removeLink.innerHTML = 'Deselect';
+        removeLink.setAttribute('onclick', `deselectStudent('${selectStudent.id}'); return false;`);
+
+        selStudentsList.appendChild(selectStudent);
+
+        return false;
+    }
+
+    function deselectStudent(studentID) {
+        let selectStudent = document.getElementById(studentID);
+
+        let student_Id = studentID.split('-')[1];
+        delStudentsArr.push(student_Id);
+        let searchStudentID = 'searchstudents-' + student_Id;
+
+        let searchStudent = document.getElementById(searchStudentID);
+        searchStudent.setAttribute('onclick', `selectStudent('${searchStudentID}'); return false;`);
+
+        let addLink = searchStudent.getElementsByClassName('bttn-brand-outline-blue')[0];
+        addLink.classList.remove('bttn-brand-outline-blue');
+        addLink.classList.add('bttn-brand-blue');
+        addLink.setAttribute('href', '#');
+        addLink.innerHTML = 'Select';
+
+        selStudentsList.removeChild(selectStudent);
+
+        return false;
+    }
+
+    function getStudentsIDs() {
+        let selectedStudentsList = document.getElementById('selected-students');
+        let students = selectedStudentsList.getElementsByTagName('li');
+        sIds = [];
+        Array.from(students).forEach(student => {
+            sIds.push(student.id.split('-')[1]);
+        });
+        return sIds.join(';').trim(';');
+    }
+
+    function getStudentIDsToDelete() {
+        return delStudentsArr.join(';').trim(';');
+    }
+
+    function submitAddStudentsForm(csrfToken) {
+        $.ajax({
+            url: '{{ submit_url }}',
+            type: 'POST',
+            data: {
+                'csrfmiddlewaretoken': csrfToken,
+                'add_students': getStudentsIDs(),
+                'remove_students': getStudentIDsToDelete()
+            },
+            success: function() {
+                console.log('POST succeeded.')
+                alert('Section students updated.')
+                window.location.replace('{{ redirect_url }}')
+            },
+            error: function() {
+                console.log('POST failed.')
+                alert('Your request could not be submitted.')
+            }
+        });
+    }
+
+    $(document).ready(function() {
+        let studentNameSort = document.getElementById('student-name-sort');
+        let studentNameSortIcon = document.getElementById('student-name-sort-icon');
+        let sortNameUp_Displayed = true;
+
+        studentNameSort.addEventListener('click', () => {
+            if (sortNameUp_Displayed) {
+                studentNameSortIcon.classList.remove("bi-sort-alpha-up");
+                studentNameSortIcon.classList.add("bi-sort-alpha-down-alt");
+            }
+            else {
+                studentNameSortIcon.classList.remove("bi-sort-alpha-down-alt");
+                studentNameSortIcon.classList.add("bi-sort-alpha-up");
+            }
+            sortNameUp_Displayed = !sortNameUp_Displayed;
+        });
+    });
+</script>
+{% endblock body_scripts %}

@@ -9,6 +9,7 @@
 
 {% block content %}
 {% load professors_filters %}
+{% load string_filters %}
 <div class="tab container-lg fs-500 br-2 shadow">
     <button class="tablinks" id="courses" onclick="openTab(event, 'courses-tab')">Courses</button>
     <button class="tablinks" id="projects" onclick="openTab(event, 'projects-tab')">Projects</button>
@@ -38,8 +39,10 @@
                     {{ section.description }}
                 </div>
                 <div class="col-sm">
-                    <a href="#">{{ section|count_students_by_section }} students</a>
-                    <a href="#" class="ml-4">{{ section|count_projects_by_section }} projects</a>
+                    {% with 'section-projects-'|addstr:section.id as s_id %}
+                    <a href="{% url 'professors:add_students' professor.institution.id section.id 'courses' %}">{{ section|count_students_by_section }} students</a>
+                    <a href="{% url 'professors:manage_courses_and_projects' 'projects' s_id %}" class="ml-4">{{ section|count_projects_by_section }} projects</a>
+                    {% endwith %}
                 </div>
                 <div class="col-sm mr-auto">
                     <div class="d-flex pt-2">
@@ -87,11 +90,13 @@
             {% for section in course.section_set.all %}
             {% project_in_section project section as in_section %}
             {% if in_section %}
-            <div class="row pl-4 pb-2">
+            {% with "section-projects-"|add:section.id as id %}
+            <div class="row pl-4 pb-2" id='{{ id }}'>
+            {% endwith %}
                 <div class="col-sm ff-sans-bolder">{{ section.section_code }}</div>
                 <span class="col-sm">
                     <a href="#">Evaluations</a>&emsp;&emsp;
-                    <a href="#">Students</a>
+                    <a href="{% url 'professors:add_students' professor.institution.id section.id 'projects' %}">Students</a>
                 </span>
                 <span class="col-sm">
                     <a href="{% url 'professors:confirm_remove_section' section.id project.id %}"><button class="bttn-outline-danger-sm">Unassign {{ section.section_code }}</button></a>
@@ -108,11 +113,9 @@
         {% endfor %}
     </div>
 </div>
-
 {% endblock content %}
 
 {% block body_scripts %}
-
 <script>
 function openTab(evt, tabID) {
     // Declare all variables
@@ -138,8 +141,14 @@ function openTab(evt, tabID) {
 
 {% if 'goto_tab' != '' %}
 <script>
-    let el = document.getElementById("{{ goto_tab }}");
-    el.click();
+    let tab = document.getElementById("{{ goto_tab }}");
+    tab.click();
+</script>
+{% endif %}
+{% if 'goto_section' != '' %}
+<script>
+    let section = document.getElementById("{{ goto_section }}");
+    section.click();
 </script>
 {% endif %}
 {% endblock body_scripts %}

@@ -15,6 +15,12 @@ class SectionMultipleChoiceField(forms.ModelMultipleChoiceField):
     def label_from_instance(self, section):
         return "%s" % section.section_code
 
+class StudentMultipleChoiceField(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, student):
+        return "%s" % (f"<a class=\"student-name\"{student.user.first_name} "
+        f"{student.user.last_name}</a> | <a class=\"student-major\">Major: {student.major}</a> | "
+        f"<a class=\"student-gradelevel\">Gradelevel: {student.grade_level}</a>")
+
 class ProfessorForm(forms.ModelForm):
     profile_icon = forms.FileField(
         label='Profile icon',
@@ -211,6 +217,25 @@ class AddSectionForm(forms.ModelForm):
         self.helper.field_class='col-75'
         self.helper.form_tag = False
 
+
+class ChooseStudentsForm(forms.Form):
+    students = StudentMultipleChoiceField(
+        label='Select one or more sections',
+        queryset=None,
+        required=False,
+        widget=forms.RadioSelect()
+    )
+
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+        self.helper.form_class='form-horizontal'
+        self.helper.label_class='col-25 fs-400 ff-sans-normal'
+        self.helper.field_class='col-75'
+        self.helper.form_tag = False
+
+        self.institution = kwargs.pop('institution')
+        super().__init__(*args, **kwargs)
+        self.fields['students'].queryset = Student.objects.filter(institution=self.institution)
 
 
 class SectionForm(forms.ModelForm):

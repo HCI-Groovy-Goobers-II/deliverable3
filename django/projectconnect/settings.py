@@ -49,6 +49,7 @@ INSTALLED_APPS = [
 
     # Custom template tags:
     'professors_filters',
+    'string_filters',
 
     # 3rd party:
     'anymail',
