@@ -1,0 +1,34 @@
+{% extends './base.html' %}
+
+{% block title %}Assign a Section{% endblock title %}
+
+{% block more_links %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/forms.css' %}">
+{% endblock more_links %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+<br>
+<div class="container-sm flow">
+	<div class="lightly-pad-container shadow text-break text-center border-dotted-brand-green">
+		<div class="text-center title"><h2>Assign Project to Section</h2></div>
+		<div class="form-container">
+			<form action="{% url 'professors:add_section' course_id project_id %}" method='post'>
+				{% crispy form %}
+				<div class="form-row">
+                    <div class="col-25">
+                        &nbsp;
+                    </div>
+                    <div class="col-25" style="text-align: left;">
+                        <button class="btn btn-primary" type="submit">Save</button>
+                    </div>
+                    <div class="col-25" style="text-align: left;">
+                        <button onclick="javascript:history.back();" class="btn btn-danger">Cancel</button>
+                    </div>
+                </div>
+			</form>
+		</div>
+	</div>
+</div>
+{% endblock content %}

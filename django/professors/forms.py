@@ -188,6 +188,31 @@ class ChooseProjectSectionsForm(forms.Form):
         self.fields['sections'].queryset = Section.objects.filter(course=self.course)
 
 
+class AddSectionForm(forms.ModelForm):
+    section_choice = forms.CharField(
+        label='Pre-existing Sections',
+    )
+
+    class Meta:
+        model = Section
+        fields = [ 'section_choice' ]
+
+    def __init__(self, *args, **kwargs):
+        course = kwargs.pop('course')
+        self.choices = [ (s, s) for s in Section.objects.filter(course=course)._clone().values_list('section_code', flat=True) ]
+
+        super().__init__(*args, **kwargs)
+        self.fields['section_choice'].widget=forms.Select(
+            choices=self.choices
+        )
+        self.helper = FormHelper()
+        self.helper.form_class='form-horizontal'
+        self.helper.label_class='col-25'
+        self.helper.field_class='col-75'
+        self.helper.form_tag = False
+
+
+
 class SectionForm(forms.ModelForm):
     section_code = forms.CharField(
         label='Section Code',
@@ -208,7 +233,7 @@ class SectionForm(forms.ModelForm):
     class Meta:
         model = Section
         fields = [
-            'section_code', 'description', 'course',
+            'section_code', 'description',
         ]
 
     def __init__(self, *args, **kwargs):

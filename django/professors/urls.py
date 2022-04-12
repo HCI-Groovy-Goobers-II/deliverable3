@@ -19,7 +19,9 @@ urlpatterns = [
     path('edit_project/<int:project_id>/', views.edit_project, name='edit_project'),
     path('confirm_delete_project/<int:project_id>/', views.confirm_delete_project, name='confirm_delete_project'),
     path('delete_project/<int:project_id>/', views.delete_project, name='delete_project'),
-    path('choose_project_sections/<int:project_id>/', views.choose_project_sections, name='choose_project_sections'),
+    path('add_section/<int:course_id>/<int:project_id>/', views.add_section, name='add_section'),
+    path('confirm_remove_section/<int:section_id>/<int:project_id>/', views.confirm_remove_section, name='confirm_remove_section'),
+    path('remove_section/<int:section_id>/<int:project_id>/', views.remove_section, name='remove_section'),
 
     path('create_section/', views.create_section, name='create_section'),
     path('edit_section/<int:section_id>/', views.edit_section, name='edit_section'),

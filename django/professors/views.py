@@ -8,6 +8,7 @@ from users.decorators import allowed_users
 from professors.models import *
 from students.models import Student
 from datetime import datetime as dt, timedelta
+from django.views.decorators.cache import never_cache
 from django.contrib import messages
 from os import path
 
@@ -161,7 +162,7 @@ def edit_course(request, course_id):
                         course=course
                     )
                     section.save()
-            return HttpResponseRedirect(reverse('professors:manage_courses_and_projects')) #Return to the index
+            return HttpResponseRedirect(reverse('professors:manage_courses_and_projects', args=['projects']))
 
     context = {
         'form': form,
@@ -172,31 +173,59 @@ def edit_course(request, course_id):
 
     return render(request, 'professors/edit_course_form.html', context)
 
-
+@never_cache
 @login_required
-@allowed_users(allowed_groups=['professors'])
-def choose_project_sections(request, project_id):
+def add_section(request, course_id, project_id):
+    course = Course.objects.get(id=course_id)
     project = Project.objects.get(id=project_id)
-    course = Course.objects.get(id=project.course.id)
-    sections = Section.objects.filter(course=course) # available sections
 
     if request.method != 'POST':
-        form = ChooseProjectSectionsForm(course=course)
+        form = AddSectionForm(course=course)
     else:
-        form = ChooseProjectSectionsForm(course=course, data=request.POST)
+        form = AddSectionForm(course=course, data=request.POST)
         if form.is_valid():
+            section_code = form.data['section_choice']
 
-            print(request.POST['sections'])
+            try:
+                sections = Section.objects.filter(course=course)
+                section = sections.get(section_code=section_code)
+                section.projects.add(project)
+                section.save()
+                print(section.projects.all())
+            except Exception as e:
+                print(e)
+                pass
 
             return HttpResponseRedirect(reverse('professors:manage_courses_and_projects', args=['projects']))
 
     context = {
-        'project': project,
-        'sections': sections,
         'form': form,
+        'course_id': course.id,
+        'project_id': project.id
     }
+    return render(request, 'professors/add_section.html', context)
 
-    return render(request, 'professors/choose_project_sections_form.html', context)
+@login_required
+@allowed_users(allowed_groups=['professors'])
+def confirm_remove_section(request, section_id, project_id):
+    section = Section.objects.get(id=section_id)
+    project = Project.objects.get(id=project_id)
+    context = {
+        'section_id': section.id,
+        'project_id': project.id,
+        'section_code': section.section_code,
+        'project_name': project.title,
+        'item_delete_url': 'professors:delete_course'
+    }
+    return render(request, 'professors/confirm_remove_section.html', context)
+
+
+@login_required
+@allowed_users(allowed_groups=['professors'])
+def remove_section(request, section_id, project_id):
+    section = Section.objects.get(id=section_id)
+    section.projects.remove(Project.objects.get(id=project_id))
+    return HttpResponseRedirect(reverse('professors:manage_courses_and_projects', args=['projects']))
 
 
 @login_required
@@ -231,7 +260,7 @@ def create_project(request):
         form = ProjectForm(instance=project, request=request, data=request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('professors:choose_project_sections', args=[project.id]))
+            return HttpResponseRedirect(reverse('professors:add_section', args=[project.course.id, project.id]))
 
     context = { 'project': project, 'form': form }
     return render(request, 'professors/create_project_form.html', context)
@@ -247,7 +276,7 @@ def edit_project(request, project_id):
         form = ProjectForm(instance=project, request=request, data=request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponseRedirect(reverse('professors:choose_project_sections', args=[project.id]))
+            return HttpResponseRedirect(reverse('professors:add_section', args=[project.course.id, project.id]))
 
     context = { 'project': project, 'form': form }
     return render(request, 'professors/edit_project_form.html', context)
@@ -306,16 +335,16 @@ def create_section(request, course_id):
 def edit_section(request, section_id):
     section = Section.objects.get(id=section_id)
     if request.method != 'POST':
-        form = SectionForm()
+        form = SectionForm(instance=section)
     else:
-        form = SectionForm(data=request.POST)
+        form = SectionForm(instance=section, data=request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('professors:manage_courses_and_projects'))
 
     context = {
         'form': form,
-        'course_code': section.course
+        'section': section
     }
 
     return render(request, 'professors/edit_section_form.html', context)

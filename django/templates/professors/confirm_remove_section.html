@@ -1,5 +1,5 @@
 {% extends './base.html' %}
-{% block page_title %}Delete {{ item_name }} {% endblock page_title %}
+{% block page_title %}Unassign {{ section_code }} {% endblock page_title %}
 
 {% block more_links %}
 {% load static %}
@@ -10,12 +10,12 @@
 <br>
 <div class="container-sm flow">
 	<div class="lightly-pad-container shadow text-break text-center">
-		<h2 class="ff-sans-bolder">Delete {{ item_name }}</h2>
+		<h2 class="ff-sans-bolder">Unassign {{ section_code }}</h2>
 		<div class="form-container">
 			<div>
 				<p>
-					Deleting this {{ item_name }} {{ item_description }}
-					cannot be undone. Are you sure you want to delete?
+					Unassigning {{ section_code }} from {{ project_name }}
+					cannot be undone. Are you sure you want to unassign?
 				</p>
 				<div class="form-row center">
 					<div class="col-25" style="text-align: left;">
@@ -24,7 +24,7 @@
 						<button class="bttn-brand-blue" onclick="javascript:history.back();">Cancel</button>
 					</div>
 					<div class="col-25" style="text-align: left;">
-						<a href="{% url item_delete_url item_id %}"><button class="bttn-danger">Delete</button></a>
+						<a href="{% url 'professors:remove_section' section_id project_id %}"><button class="bttn-danger">Unassign</button></a>
 					</div>
 				</div>
 			</div>

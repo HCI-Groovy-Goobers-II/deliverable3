@@ -56,9 +56,6 @@
 
 <div id="projects-tab" class="tabcontent">
     <div class="bg-brand-blue container-lg center card shadow">
-        <div class="container br-2 pt-1 pb-3">
-            <a href="{% url 'professors:create_project' %}"><button class="bttn-brand-blue" style="border: 1px solid hsl(var( --clr-white ));">Create a new project</button></a>
-        </div>
         {% for course in courses %}
         {% projects_by_course course as projects %}
 
@@ -79,10 +76,31 @@
                     {{ project.end_date }}
                 </div>
                 <div class="col-sm">
-                    <a href="{% url 'professors:edit_project' project.id %}"><button class="bttn-outline-brand-blue-sm">Edit</button></a>
-                    <a class="ml-4 text-danger" href="{% url 'professors:confirm_delete_project' project.id %}"><button class="bttn-outline-danger-sm">Delete</button></a>
+                    <a href="{% url 'professors:edit_project' project.id %}"><button class="bttn-outline-brand-blue">Edit</button></a>
+                    <a class="ml-4 text-danger" href="{% url 'professors:confirm_delete_project' project.id %}"><button class="bttn-outline-danger">Delete</button></a>
                 </div>
             </div>
+            <div class="p-4 text-break" style="margin-bottom: 1rem;">
+                <h5 class="ff-sans-bolder">Sections assigned to Project</h5>
+                <hr>
+            </div>
+            {% for section in course.section_set.all %}
+            {% project_in_section project section as in_section %}
+            {% if in_section %}
+            <div class="row pl-4 pb-2">
+                <div class="col-sm ff-sans-bolder">{{ section.section_code }}</div>
+                <span class="col-sm">
+                    <a href="#">Evaluations</a>&emsp;&emsp;
+                    <a href="#">Students</a>
+                </span>
+                <span class="col-sm">
+                    <a href="{% url 'professors:confirm_remove_section' section.id project.id %}"><button class="bttn-outline-danger-sm">Unassign {{ section.section_code }}</button></a>
+                </span>
+            </div>
+            <hr>
+            {% endif %}
+            {% endfor %}
+            <br>
         </div>
         {% endfor %}
         {% endif %}

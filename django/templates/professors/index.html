@@ -16,7 +16,7 @@
                 <h3 class="ff-sans-bolder text-center text-white textshadow">My Courses</h3>
             </div>
             {% for course in courses %}
-            <div class="lightly-pad-container bg-white shadow" style="word-wrap: normal;">
+            <div class="lightly-pad-container bg-white mb-3 shadow" style="word-wrap: normal;">
                 <h4 class="ff-sans-bolder">{{ course.description }}</h4>
                 <div class="ff-sans-bolder fs-400">({{ course.code}})</div>
                 <hr>
@@ -42,7 +42,7 @@
                 <h3 class="ff-sans-bolder text-center text-white textshadow">My Projects</h3>
             </div>
             {% for course in courses %}
-            <div class="lightly-pad-container bg-white mb-3" style="word-wrap: normal;">
+            <div class="lightly-pad-container bg-white mb-3 shadow" style="word-wrap: normal;">
                 {% projects_by_course course as projects %}
                 {% for project in projects %}
                 <h4 class="ff-sans-bolder mt-3 mb-3">{{ project.title }} - {{ course.code }}</h4>
