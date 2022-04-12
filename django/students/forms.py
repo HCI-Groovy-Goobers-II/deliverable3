@@ -32,7 +32,7 @@ class StudentForm(forms.ModelForm):
 
     grade_level = forms.CharField(
         label='Choose grade level',
-        required=True,
+        required=False,
         widget=forms.Select(choices=SelectFieldChoices.GRADE_LEVEL_CHOICES)
     )
 
@@ -55,7 +55,7 @@ class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
         fields = [
-            'profile_icon', 'pronouns',
+            'profile_icon', 'grade_level', 'pronouns',
             'bio',
         ]
 

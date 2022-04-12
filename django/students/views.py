@@ -28,7 +28,9 @@ def edit_profile(request):
     else:                                       
         form = StudentForm(instance=student, data=request.POST) 
         if form.is_valid():
+            print(form.fields['grade_level'])
             form.save()
+            print(request.POST['grade_level'])
             if len(request.FILES) != 0:
                 if 'profile_icon' in request.FILES.keys():
                     image = request.FILES['profile_icon']

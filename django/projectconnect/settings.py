@@ -41,10 +41,14 @@ INSTALLED_APPS = [
 
     # Our apps:
     'institutions',
+    'json_tag',
     'professors',
     'public_pages',
     'students',
     'users',
+
+    # Custom template tags:
+    'professors_filters',
 
     # 3rd party:
     'anymail',

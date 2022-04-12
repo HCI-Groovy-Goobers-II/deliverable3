@@ -39,7 +39,7 @@ class Professor(models.Model):
 
     def __str__(self):
         return (
-            f"\nid:          {self.id}\n"
+            f"\nid:         {self.id}\n"
             f"title:       {self.title}\n"
             f"institution: {self.institution}\n"
             f"profile icon path:      '{S3ProfessorUpload._upload_to}'\n"
@@ -59,7 +59,8 @@ class Course(models.Model):
 
     def __str__(self):
         return (
-            f"Course:       {self.description}:{self.code}-\n\t" + Professor.print_userfriendly(self.professor)          
+            f"\n{self.code}: {self.description}"
+            f", {self.professor.user.last_name}"
         )
 
 
@@ -72,9 +73,9 @@ class Project(models.Model):
 
     def __str__(self):
         return (
-            f"\ntitle:          {self.title}\n"
-            f"description:       {self.description}\n"
-            f"course: {self.course}\n"
+            f"\ntitle:      {self.title}\n"
+            f"description: {self.description}\n"
+            f"course:      {self.course.code}\n"
         )
 
 
@@ -83,8 +84,7 @@ class Section(models.Model):
     description = models.CharField(max_length=200)
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
     projects = models.ManyToManyField(Project)
-    students = models.ManyToManyField(Student) 
-
+    students = models.ManyToManyField(Student)
     
         
 

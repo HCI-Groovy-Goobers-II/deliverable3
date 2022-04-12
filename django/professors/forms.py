@@ -1,14 +1,19 @@
+from email.policy import default
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Row, Column
 from django.http import HttpResponse, HttpResponseRedirect
 from os import path
 from .models import *
+from .form_widgets import DateTimePickerInput
 
 class customMultipleChoiceField(forms.ModelMultipleChoiceField):
     def instance_label(self, course):
         return "%s" % course.code
 
+class SectionMultipleChoiceField(forms.ModelMultipleChoiceField):
+    def label_from_instance(self, section):
+        return "%s" % section.section_code
 
 class ProfessorForm(forms.ModelForm):
     profile_icon = forms.FileField(
@@ -64,7 +69,7 @@ class ProfessorForm(forms.ModelForm):
         self.helper.form_tag = False
 
 
-class CreateCourseForm(forms.ModelForm):
+class CourseForm(forms.ModelForm):
     code = forms.CharField(
         label='Class code',
         required=True,
@@ -74,23 +79,26 @@ class CreateCourseForm(forms.ModelForm):
     )
 
     description = forms.CharField(
-        label='Description',
+        label='Title',
         required=True,
         widget=forms.TextInput(attrs={
-            'placeholder': 'The description..',
-        })    
+            'placeholder': 'The course title..',
+        })
     )
 
-    course_sections = forms.CharField()
-    
+    course_sections = forms.CharField(required=False)
+    created_course_sections = forms.CharField(required=False)
+    course_sections_to_delete = forms.CharField(required=False)
+    created_course_section_ids = forms.CharField(required=False)
+
     class Meta:
         model = Course
         fields = [
-            'code','description','professor',
+            'code','description',
         ]
 
 
-class CreateProjectForm(forms.ModelForm):
+class ProjectForm(forms.ModelForm):
     title = forms.CharField(
         label='Project Title',
         required=True,
@@ -107,23 +115,18 @@ class CreateProjectForm(forms.ModelForm):
         })
     )
 
-    start_date = forms.CharField(
+    start_date = forms.DateTimeField(
         label='Start Date',
         required=True,
-        widget=forms.TextInput(attrs={
-            'placeholder': 'The start date..',
-        })
+        widget=DateTimePickerInput()
     )
 
-
-    end_date = forms.CharField(
+    end_date = forms.DateTimeField(
         label='End Date',
         required=True,
-        widget=forms.TextInput(attrs={
-            'placeholder': 'The end date..',
-        })              
-    
+        widget=DateTimePickerInput()
     )
+
     course = forms.ModelChoiceField(
         label='Course',
         queryset=None,
@@ -137,10 +140,10 @@ class CreateProjectForm(forms.ModelForm):
         ]
 
     def __init__(self, *args, **kwargs):
-        self.request = kwargs.pop('request')        
+        self.request = kwargs.pop('request')
         super().__init__(*args, **kwargs)
 
-        professor = Professor.objects.get(user=self.request.user)        
+        professor = Professor.objects.get(user=self.request.user)
         self.fields['course'].queryset = Course.objects.filter(professor=professor)
 
         self.helper = FormHelper()
@@ -163,11 +166,29 @@ class CreateProjectForm(forms.ModelForm):
             ),
             Row(
                 Column('course')
-            ),                          
+            ),
         )
 
+class ChooseProjectSectionsForm(forms.Form):
+    sections = SectionMultipleChoiceField(
+        label='Select one or more sections',
+        queryset=None,
+        required=False,
+    )
 
-class CreateSectionForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+        self.helper.form_class='form-horizontal'
+        self.helper.label_class='col-25 fs-400 ff-sans-normal'
+        self.helper.field_class='col-75'
+        self.helper.form_tag = False
+
+        self.course = kwargs.pop('course')
+        super().__init__(*args, **kwargs)
+        self.fields['sections'].queryset = Section.objects.filter(course=self.course)
+
+
+class SectionForm(forms.ModelForm):
     section_code = forms.CharField(
         label='Section Code',
         required=True,
@@ -184,35 +205,10 @@ class CreateSectionForm(forms.ModelForm):
         })
     )
 
-    course = forms.CharField(
-        label='Course',
-        required=True,
-        widget=forms.TextInput(attrs={
-            'placeholder': 'The course of the section..',
-        })
-    )    
-
-    projects = forms.CharField(
-        label='Projects',
-        required=True,
-        widget=forms.TextInput(attrs={
-            'placeholder': 'The projects of the section..',
-        })
-    )    
-
-
-    students = forms.CharField(
-        label='Students',
-        required=True,
-        widget=forms.TextInput(attrs={
-            'placeholder': 'The students of the section..',
-        })
-    )    
-
     class Meta:
         model = Section
         fields = [
-            'section_code', 'description', 'course', 'projects', 'students',
+            'section_code', 'description', 'course',
         ]
 
     def __init__(self, *args, **kwargs):
@@ -224,18 +220,9 @@ class CreateSectionForm(forms.ModelForm):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Row(
-                Column('title')
+                Column('section_code')
             ),
             Row(
                 Column('description')
-            ),
-            Row(
-                Column('course')
-            ),
-            Row(
-                Column('projects')
-            ),
-            Row(
-                Column('students')
-            ),                          
+            )
         )

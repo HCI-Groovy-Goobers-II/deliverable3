@@ -85,13 +85,13 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link nav-dropbttn" onclick="toggleDropdown('profile-dropdown-content')" alt="Link to profile page">
+                            <a class="nav-link nav-dropbttn nav-dropbttn" onclick="toggleDropdown('profile-dropdown-content')" alt="Link to profile page">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="1.6em" height="1.6em" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
                                     <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
                                 </svg>
                                 <br>Profile
                             </a>
-                            <div class="nav-dropdown-content" id="profile-dropdown-content">
+                            <div class="profile-dropdown-content nav-dropdown-content" id="profile-dropdown-content">
                                 <div class="row card-row">
                                     <div class="col">
                                         {% with 'img/students/profile_icons/'|add:student.profile_icon_file_name as profile_icon_static %}
@@ -101,14 +101,16 @@
                                     </div>
                                     <div class="col">
                                         {{ user.first_name }} {{ user.last_name }}
-                                        {% if not student.grade_level == '' %}
-                                        🎓 {{ student.grade_level }}
-                                        {% endif %}
-                                        {% if not student.major == '' %}
-                                         , {{ student.major }}
-                                        {% endif %}
                                     </div>
                                 </div>
+                                <p>
+                                    {% if not student.major == '' %}
+                                    🎓 {{ student.major }}
+                                    {% endif %}
+                                    {% if not student.grade_level == '' %}
+                                    · {{ student.grade_level }}
+                                    {% endif %}
+                                </p>
                                 <a href="{% url 'students:edit_profile' %}">Edit profile</a>
                             </div>
                         </li>
@@ -129,7 +131,6 @@
                 </div>
             </nav>
             {% block content %}
-
             {% endblock content %}
         </div>
     </div>
@@ -147,22 +148,28 @@
     </footer>
 
     <script>
-        function toggleDropdown(id) {
-          document.getElementById(id).classList.toggle("show");
-        }
-
-        // Close the dropdown menu if the user clicks outside of it
-        window.onclick = function(event) {
-          if (!event.target.matches('.nav-dropbttn')) {
-            var dropdowns = document.getElementsByClassName("dropdown-content");
-            var i;
+        function closeDropdowns() {
+            let dropdowns = document.getElementsByClassName("nav-dropdown-content");
+            let i;
             for (i = 0; i < dropdowns.length; i++) {
-              var openDropdown = dropdowns[i];
+              let openDropdown = dropdowns[i];
+              console.log(i);
               if (openDropdown.classList.contains('show')) {
                 openDropdown.classList.remove('show');
               }
             }
-          }
+        }
+
+        function toggleDropdown(id) {
+            closeDropdowns(); // First close dropdowns that could already be open.
+            document.getElementById(id).classList.toggle("show");
+        }
+
+        // Close the dropdown menu if the user clicks outside of it
+        window.onclick = function(event) {
+            if (!event.target.matches('.nav-dropbttn')) {
+                closeDropdowns();
+            }
         }
     </script>
     {% block body_scripts %}{% endblock body_scripts %}
