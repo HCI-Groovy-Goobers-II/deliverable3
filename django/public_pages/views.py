@@ -4,6 +4,7 @@ from django.urls import reverse
 from datetime import datetime as dt, timedelta
 from .models import HotJar
 from .forms import HotJarForm
+from django.contrib.auth.decorators import login_required
 
 
 def handle_404(request, exception):
@@ -20,6 +21,7 @@ def about_section(request, section):
     return render(request, 'public_pages/about.html',
                     context={ 'goto_section': section })
 
+@login_required
 def hotjar(request):
     hotjar = HotJar.objects.get(id=1)
     if not request.method == 'POST':
