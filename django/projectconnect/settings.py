@@ -28,7 +28,7 @@ DEBUG = bool(int(getenv('DEBUG')))
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
-    'localhost',
+    'https://hci-projectconnect.herokuapp.com/'
 ]
 
 # Application definition
