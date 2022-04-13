@@ -1,3 +1,4 @@
+from cProfile import label
 from django import forms
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Row, Column
@@ -17,8 +18,6 @@ class SelectFieldChoices:
         ('Other', 'Other')
     )
 
-# TODO: Finish the student form. Look at the professor form for an example.
-
 class StudentForm(forms.ModelForm):
 
     profile_icon = forms.FileField(
@@ -34,6 +33,16 @@ class StudentForm(forms.ModelForm):
         label='Choose grade level',
         required=False,
         widget=forms.Select(choices=SelectFieldChoices.GRADE_LEVEL_CHOICES)
+    )
+
+    major = forms.CharField(
+        label="What's your major?",
+        required=False,
+    )
+
+    minor = forms.CharField(
+        label="What's your minor, if any?",
+        required=True
     )
 
     pronouns = forms.CharField(
@@ -55,8 +64,8 @@ class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
         fields = [
-            'profile_icon', 'grade_level', 'pronouns',
-            'bio',
+            'profile_icon', 'grade_level', 'major'
+            'minor', 'pronouns', 'bio',
         ]
 
     def __init__(self, *args, **kwargs):
