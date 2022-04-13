@@ -1,3 +1,4 @@
 from django.db import models
 
-# Create your models here.
+class HotJar(models.Model):
+    hotjar_script = models.CharField(max_length=2200)

@@ -9,11 +9,15 @@
 
 {% block content %}
 {% load professors_filters %}
+{% load string_filters %}
 <div class="container flow">
     <div class="row card-row">
         <div class="col-sm card-thin-border bg-white" style="height: 450px; overflow-x: hidden; overflow-y: scroll;">
             <div class="lightly-pad-container bg-brand-blue text-white text-break" style="margin-bottom: 1rem;">
                 <h3 class="ff-sans-bolder text-center text-white textshadow">My Courses</h3>
+            </div>
+            <div class="lightly-pad-container bg-white">
+                <a href="{% url 'professors:manage_courses_and_projects' 'courses'%}"><button class="bttn-outline-brand-blue">Go to Courses Tab</button></a>
             </div>
             {% for course in courses %}
             <div class="lightly-pad-container bg-white mb-3 shadow" style="word-wrap: normal;">
@@ -25,8 +29,10 @@
                 <div class="row">
                     <div class="col-sm ff-sans-bolder">{{ section.section_code }}</div>
                     <span class="col-sm">
-                        <a href="#">Projects</a>&emsp;&emsp;
-                        <a href="#">Students</a>
+                        {% with 'section-projects-'|addstr:section.id as s_id %}
+                        <a href="{% url 'professors:manage_courses_and_projects' 'projects' s_id %}">Projects</a>&emsp;&emsp;
+                        {% endwith %}
+                        <a href="{% url 'professors:add_students' professor.institution.id section.id 'home' %}">Students</a>
                     </span>
                 </div>
                 <hr>
@@ -41,6 +47,9 @@
             <div class="lightly-pad-container bg-brand-blue text-white text-break" style="margin-bottom: 1rem;">
                 <h3 class="ff-sans-bolder text-center text-white textshadow">My Projects</h3>
             </div>
+            <div class="lightly-pad-container bg-white">
+                <a href="{% url 'professors:manage_courses_and_projects' 'projects'%}"><button class="bttn-outline-brand-blue">Go to Projects Tab</button></a>
+            </div>
             {% for course in courses %}
             <div class="lightly-pad-container bg-white mb-3 shadow" style="word-wrap: normal;">
                 {% projects_by_course course as projects %}
@@ -52,7 +61,7 @@
                     <div class="col-sm ff-sans-bolder">{{ section.section_code }}</div>
                     <span class="col-sm">
                         <a href="#">Evaluations</a>&emsp;&emsp;
-                        <a href="#">Students</a>
+                        <a href="{% url 'professors:add_students' professor.institution.id section.id 'home' %}">Students</a>
                     </span>
                 </div>
                 <br>

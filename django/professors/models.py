@@ -1,5 +1,4 @@
 from pyexpat import model
-from turtle import title
 from django.db import models
 from institutions.models import Institution
 from users.models import EmailAuthUser

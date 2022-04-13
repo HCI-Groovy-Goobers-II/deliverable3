@@ -30,7 +30,7 @@
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
     </svg>
-    <input type="text" class="search" placeholder="Name, grade level, rating" style="border-radius: 5px; vertical-align: middle;">
+    <input type="text" class="search" placeholder="Name, grade level, rating" style="border-radius: 2px; vertical-align: middle;">
     <div class="fs-200" id="disp-block-when-small">
         <a style="margin-left: 14px;">
             <button class="sort btn btn-outline-primary" id="student-name-sort" data-sort="student-name">
@@ -64,14 +64,13 @@
                             🪜&nbsp;<a class="student-gradelevel">{{ student.grade_level }}</a>&nbsp;
                             {% endif %}
                             {% if not student.major == '' %}
-                            🎓&nbsp;
-                            <a class="student-major">{{ student.major }}</a>
+                            🎓&nbsp;<a class="student-major">{{ student.major }}</a>
                             {% endif %}
                             <br>
                         </p>
                         {% if not student.minor == '' %}
                         <p>
-                            🤓<a class="student-minor">Minor: {{ student.minor }}</a>
+                            🤓&nbsp;<a class="student-minor">Minor: {{ student.minor }}</a>
                         </p>
                         {% endif %}
                         <a class="student-rating">

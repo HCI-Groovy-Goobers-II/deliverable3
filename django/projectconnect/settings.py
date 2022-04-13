@@ -24,10 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-pq_oj5l=jam+x0x5_*o1ny9!f#=jxo6#$b)69j84i6-e)_!oe@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(int(getenv('DEBUG')))
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+]
 
 # Application definition
 
@@ -84,6 +86,7 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'projectconnect.context_processors.add_professor_to_context',
                 'projectconnect.context_processors.add_student_to_context',
+                'projectconnect.context_processors.add_hotjar_to_context',
             ],
         },
     },

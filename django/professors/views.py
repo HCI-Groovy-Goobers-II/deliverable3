@@ -221,9 +221,14 @@ def add_students(request, institution_id, section_id, redirect_tab):
 
         return HttpResponseRedirect(reverse('professors:manage_courses_and_projects', args=[redirect_tab]))
 
+    if redirect_tab == 'home':
+        redirect_url = "/professors/"
+    else:
+        redirect_url = f"/professors/manage_courses_and_projects/{redirect_tab}/"
+
     context = {
         'submit_url': f"/professors/add_students/{institution_id}/{section_id}/{redirect_tab}/",
-        'redirect_url': f"/professors/manage_courses_and_projects/{redirect_tab}/",
+        'redirect_url': redirect_url,
         'institution_id': institution.id,
         'section_id': section.id,
         'redirect_tab': redirect_tab,
