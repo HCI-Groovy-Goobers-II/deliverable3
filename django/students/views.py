@@ -9,7 +9,7 @@ from users.decorators import allowed_users
 
 from datetime import datetime as dt, timedelta
 
-@login_required
+#@login_required
 @allowed_users(allowed_groups=['students'])
 def index(request):
     student = Student.objects.get(user=request.user)
@@ -19,7 +19,7 @@ def index(request):
     }
     return render(request, 'students/index.html', context)
 
-@login_required
+#@login_required
 @allowed_users(allowed_groups=['students'])
 def edit_profile(request):
     student = Student.objects.get(user=request.user) 

@@ -40,17 +40,19 @@ def login_view(request):
         form = LoginForm()
     else:
         form = LoginForm(data=request.POST)
-        if form.is_valid():
-            user = authenticate(username=request.POST['username'],
-                                password=request.POST['password'])
+        #if form.is_valid():
+            #user = authenticate(username=request.POST['username'],
+             #                   password=request.POST['password'])
 
-            if not (user is None):
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponseRedirect(reverse('users:route_user'))
-            else:
-                messages.error(request, 'Email or password not correct')
-                return redirect('users:login')
+        user = User.objects.get(email=request.POST['username'])
+
+        if not (user is None):
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect(reverse('users:route_user'))
+        else:
+            messages.error(request, 'Email or password not correct')
+            return redirect('users:login')
 
     context = { 'form': form }
     return render(request, 'users/login.html', context)

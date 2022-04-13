@@ -42,7 +42,7 @@ class StudentForm(forms.ModelForm):
 
     minor = forms.CharField(
         label="What's your minor, if any?",
-        required=True
+        required=False,
     )
 
     pronouns = forms.CharField(
@@ -64,7 +64,7 @@ class StudentForm(forms.ModelForm):
     class Meta:
         model = Student
         fields = [
-            'profile_icon', 'grade_level', 'major'
+            'profile_icon', 'grade_level', 'major',
             'minor', 'pronouns', 'bio',
         ]
 
